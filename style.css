@@ -9,42 +9,47 @@
 
 body {
     font-family: 'Noto Sans JP', sans-serif;
-    background-color: #F4F9F5; /* 自然を感じるごく薄い緑がかった背景 */
+    background-color: #F4F9F5; 
     color: #333;
     line-height: 1.8;
     overflow-x: hidden;
 }
 
 /* ==========================================================================
-   １．ヘッダーデザイン（背景画像＋パララックス）
+   １．ヘッダーデザイン（背景画像＋パララックス＋ゆっくりズーム）
    ========================================================================== */
 .site-header {
     position: relative;
-    height: 70vh; /* 画面の70%の高さ */
-    min-height: 400px;
+    height: 80vh; 
+    min-height: 500px;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
     color: white;
     overflow: hidden;
-    margin-bottom: 60px;
+    margin-bottom: 80px;
 }
 
-/* 背景画像用のレイヤー（JSで動かす対象） */
 .header-bg {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    height: 120%; /* スクロール時の余白を持たせる */
+    height: 120%;
     background-size: cover;
     background-position: center;
-    background-color: #004d40; /* 画像がない場合のベースカラー(深緑) */
+    background-color: #004d40;
     z-index: 1;
+    /* ケン・バーンズ効果（ゆっくり拡大） */
+    animation: kenBurns 20s ease-out infinite alternate;
 }
 
-/* 画像を少し暗くして文字を読みやすくするオーバーレイ */
+@keyframes kenBurns {
+    0% { transform: scale(1) translateY(0); }
+    100% { transform: scale(1.15) translateY(-2%); }
+}
+
 .site-header::after {
     content: '';
     position: absolute;
@@ -52,7 +57,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,77,64,0.7) 100%);
+    background: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,77,64,0.7) 100%);
     z-index: 2;
 }
 
@@ -63,28 +68,29 @@ body {
 }
 
 .catchphrase {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     font-weight: 700;
-    letter-spacing: 4px;
-    margin-bottom: 10px;
-    color: #F2D06B; /* 伊達政宗を連想させるゴールド */
+    letter-spacing: 5px;
+    margin-bottom: 15px;
+    color: #F2D06B; 
 }
 
 .site-header h1 {
-    font-size: 4rem;
+    font-size: 4.5rem;
     font-weight: 900;
-    letter-spacing: 2px;
+    letter-spacing: 3px;
     margin-bottom: 10px;
-    text-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 }
 
 .sub-title {
     font-size: 1.5rem;
     font-weight: 700;
+    letter-spacing: 2px;
 }
 
 /* ==========================================================================
-   レイアウト・共通パーツ
+   共通パーツ
    ========================================================================== */
 .container {
     max-width: 1000px;
@@ -92,17 +98,14 @@ body {
     padding: 0 20px;
 }
 
-/* コンテンツカード */
 .card {
     background-color: #FFFFFF;
     border-radius: 20px;
-    padding: 50px;
-    margin-bottom: 60px;
-    box-shadow: 0 10px 30px rgba(0, 77, 64, 0.08);
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, opacity 0.8s ease;
+    padding: 60px;
+    margin-bottom: 80px;
+    box-shadow: 0 15px 40px rgba(0, 77, 64, 0.08);
 }
 
-/* 枠のない透明なカード（スポット一覧用） */
 .transparent-card {
     background-color: transparent;
     box-shadow: none;
@@ -110,30 +113,30 @@ body {
 }
 
 h2 {
-    color: #004d40; /* 宮城の森をイメージした深緑 */
-    font-size: 2rem;
+    color: #004d40;
+    font-size: 2.2rem;
     font-weight: 900;
-    margin-bottom: 30px;
+    margin-bottom: 40px;
     text-align: center;
 }
 
 h2::after {
     content: '';
     display: block;
-    width: 50px;
+    width: 60px;
     height: 4px;
-    background-color: #DAA520; /* ゴールドのアクセント */
+    background-color: #DAA520;
     margin: 15px auto 0;
 }
 
 /* ==========================================================================
-   ２．紹介文セクション
+   各セクションのデザイン
    ========================================================================== */
+/* 紹介文 */
 .intro-section {
     text-align: center;
     border-top: 6px solid #004d40;
 }
-
 .intro-section p {
     font-size: 1.15rem;
     max-width: 800px;
@@ -141,75 +144,122 @@ h2::after {
     line-height: 2;
 }
 
-/* ==========================================================================
-   ３．おすすめ観光スポット
-   ========================================================================== */
+/* イベント情報（新設） */
+.events-section {
+    margin-bottom: 80px;
+}
+.event-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+.event-card {
+    display: flex;
+    background: #fff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+}
+.event-card img {
+    width: 40%;
+    object-fit: cover;
+}
+.event-info {
+    padding: 30px;
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.event-info h3 {
+    color: #004d40;
+    font-size: 1.4rem;
+    margin-bottom: 5px;
+}
+.event-date {
+    color: #DAA520;
+    font-weight: bold;
+    margin-bottom: 15px;
+    font-size: 0.9rem;
+}
+
+/* おすすめスポット */
 .spot-list {
     display: flex;
     flex-direction: column;
-    gap: 40px;
+    gap: 50px;
 }
-
-/* 画像とテキストを横並びにするレイアウト */
 .spot-item {
     display: flex;
     background-color: #FFF;
     border-radius: 20px;
     overflow: hidden;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
-    transition: transform 0.3s ease;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
 }
-
-.spot-item:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-}
-
 .spot-image {
-    flex: 0 0 45%;
-    background-color: #E0E0E0; /* 画像が無い場合のベース色 */
+    flex: 0 0 50%;
     background-size: cover;
     background-position: center;
-    min-height: 250px;
+    min-height: 350px;
+    /* 写真の内側にズーム効果をつけるための準備 */
+    transition: transform 0.6s ease;
 }
-
+.spot-item:hover .spot-image {
+    transform: scale(1.05); /* ホバーで写真だけズーム */
+}
 .spot-text {
     flex: 1;
-    padding: 40px;
+    padding: 50px;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    background: #fff;
+    position: relative; /* ズームした画像がテキストに被らないように */
+    z-index: 2;
 }
-
 .spot-text h3 {
     color: #004d40;
-    font-size: 1.5rem;
-    margin-bottom: 15px;
+    font-size: 1.6rem;
+    margin-bottom: 20px;
 }
-
-.spot-text p {
-    font-size: 1.05rem;
-    color: #555;
-}
-
-/* 偶数番目のアイテムは画像を右側に配置 */
 .spot-item:nth-child(even) {
     flex-direction: row-reverse;
 }
 
-/* ==========================================================================
-   ４．アクセス情報セクション
-   ========================================================================== */
+/* ギャラリー（新設） */
+.gallery-section {
+    margin-bottom: 80px;
+}
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+}
+.gallery-item {
+    border-radius: 12px;
+    overflow: hidden;
+    aspect-ratio: 1 / 1;
+    cursor: pointer;
+}
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.gallery-item:hover img {
+    transform: scale(1.15); /* 写真を滑らかに拡大 */
+}
+
+/* アクセス情報 */
 .access-section {
     text-align: center;
 }
-
 .access-lead {
     font-size: 1.1rem;
     margin-bottom: 30px;
     font-weight: 700;
 }
-
 .access-info {
     list-style: none;
     margin: 0 auto 40px auto;
@@ -218,40 +268,50 @@ h2::after {
     background: #FAFAFA;
     padding: 30px 40px;
     border-radius: 12px;
-    border: 1px solid #E0E0E0;
     border-left: 6px solid #004d40;
 }
-
 .access-info li {
     margin-bottom: 15px;
     font-size: 1.05rem;
 }
-
 .access-info li:last-child {
     margin-bottom: 0;
 }
 
-.btn-wrapper {
-    margin-top: 10px;
-}
-
+/* キラッと光るボタンエフェクト */
 .btn {
     display: inline-block;
     background: #004d40;
     color: white;
     text-decoration: none;
-    padding: 16px 50px;
+    padding: 18px 55px;
     font-size: 1.1rem;
     font-weight: bold;
     border-radius: 50px;
-    box-shadow: 0 6px 20px rgba(0, 77, 64, 0.3);
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 8px 25px rgba(0, 77, 64, 0.3);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
 }
-
 .btn:hover {
     background: #00695C;
-    box-shadow: 0 8px 25px rgba(0, 77, 64, 0.4);
-    transform: scale(1.05);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(0, 77, 64, 0.4);
+}
+/* キラッと光る筋のアニメーション */
+.effect-shine::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%);
+    transform: skewX(-25deg);
+    transition: all 0.7s;
+}
+.btn:hover::before {
+    left: 150%;
 }
 
 /* フッター */
@@ -264,40 +324,35 @@ h2::after {
 }
 
 /* ==========================================================================
-   アニメーション用の初期状態設定
+   アニメーション用クラス（JSで制御）
    ========================================================================= */
-.js-fade-up {
-    opacity: 0;
-    transform: translateY(50px);
+/* 基本のトランジション設定 */
+.js-fade-up, .js-slide-left, .js-slide-right, .js-zoom-in {
     transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.js-fade-up.is-active {
-    opacity: 1;
-    transform: translateY(0);
+/* 各方向の初期状態 */
+.js-fade-up { opacity: 0; transform: translateY(60px); }
+.js-slide-left { opacity: 0; transform: translateX(-80px); }
+.js-slide-right { opacity: 0; transform: translateX(80px); }
+.js-zoom-in { opacity: 0; transform: scale(0.85); }
+
+/* 画面内に入った時の状態（共通で元に戻る） */
+.is-active {
+    opacity: 1 !important;
+    transform: translate(0) scale(1) !important;
 }
 
 /* ==========================================================================
-   スマートフォン向けのレスポンシブ調整
+   スマホ対応
    ========================================================================== */
 @media (max-width: 768px) {
-    .site-header h1 {
-        font-size: 2.5rem;
-    }
-    .card {
-        padding: 30px 20px;
-    }
-    .spot-item, .spot-item:nth-child(even) {
-        flex-direction: column;
-    }
-    .spot-image {
-        min-height: 200px;
-    }
-    .spot-text {
-        padding: 25px;
-    }
-    .access-info {
-        padding: 20px;
-        width: 100%;
-    }
+    .site-header h1 { font-size: 2.8rem; }
+    .card { padding: 40px 20px; }
+    .event-card { flex-direction: column; }
+    .event-card img, .event-info { width: 100%; }
+    .spot-item, .spot-item:nth-child(even) { flex-direction: column; }
+    .spot-image { min-height: 250px; }
+    .spot-text { padding: 30px; }
+    .access-info { padding: 20px; width: 100%; }
 }
