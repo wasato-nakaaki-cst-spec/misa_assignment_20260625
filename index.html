@@ -12,8 +12,8 @@
 <body>
 
     <header class="site-header">
-        <div class="header-bg" style="background-image: url('https://picsum.photos/id/1015/1600/900');"></div>
-        <div class="header-content">
+        <div class="header-bg js-kenburns" style="background-image: url('https://picsum.photos/id/1015/1600/900');"></div>
+        <div class="header-content js-fade-up">
             <p class="catchphrase">歴史と自然が交差する場所</p>
             <h1>VISIT MIYAGI</h1>
             <p class="sub-title">宮城県 観光ガイド</p>
@@ -21,7 +21,7 @@
     </header>
 
     <main class="container">
-        <section class="card intro-section" id="about">
+        <section class="card intro-section js-fade-up" id="about">
             <h2>伊達な文化と、豊かな自然</h2>
             <p>
                 東北地方の中心に位置する宮城県は、「杜の都」と呼ばれる仙台をはじめ、日本三景・松島の絶景、蔵王の雄大な自然、そして三陸の豊かな海の幸など、多彩な魅力に溢れています。<br>
@@ -29,34 +29,69 @@
             </p>
         </section>
 
+        <section class="events-section" id="events">
+            <h2 class="js-fade-up">四季折々のイベント</h2>
+            <div class="event-grid">
+                <div class="event-card js-slide-left">
+                    <img src="https://picsum.photos/id/314/400/300" alt="仙台七夕まつり">
+                    <div class="event-info">
+                        <h3>仙台七夕まつり</h3>
+                        <p class="event-date">夏（8月）</p>
+                        <p>伊達政宗公の時代から続く日本一の七夕まつり。豪華絢爛な笹飾りが街を彩ります。</p>
+                    </div>
+                </div>
+                <div class="event-card js-slide-right">
+                    <img src="https://picsum.photos/id/364/400/300" alt="定禅寺ストリートジャズフェスティバル">
+                    <div class="event-info">
+                        <h3>ストリートジャズフェス</h3>
+                        <p class="event-date">秋（9月）</p>
+                        <p>杜の都のケヤキ並木が音楽に包まれる2日間。国内外から多くのミュージシャンが集結します。</p>
+                    </div>
+                </div>
+                <div class="event-card js-slide-left">
+                    <img src="https://picsum.photos/id/354/400/300" alt="SENDAI光のページェント">
+                    <div class="event-info">
+                        <h3>SENDAI光のページェント</h3>
+                        <p class="event-date">冬（12月）</p>
+                        <p>数十万球のイルミネーションが定禅寺通のケヤキ並木を温かく照らす、冬の風物詩です。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <section class="card transparent-card" id="spots">
-            <h2>おすすめ観光スポット</h2>
+            <h2 class="js-fade-up">おすすめ観光スポット</h2>
             <div class="spot-list">
-                <div class="spot-item">
+                <div class="spot-item js-fade-up">
                     <div class="spot-image" style="background-image: url('https://picsum.photos/id/1016/800/600');"></div>
                     <div class="spot-text">
                         <h3>絶景の「松島」</h3>
                         <p>日本三景に数えられる松島。260余りの島々が海に浮かぶ美しいパノラマは、四季折々で異なる表情を見せてくれます。遊覧船からの眺めは必見です。</p>
                     </div>
                 </div>
-                <div class="spot-item">
+                <div class="spot-item js-fade-up">
                     <div class="spot-image" style="background-image: url('https://picsum.photos/id/1080/800/600');"></div>
                     <div class="spot-text">
                         <h3>至高の「宮城グルメ」</h3>
                         <p>仙台発祥の肉厚な「牛タン」や、三陸沖で獲れた新鮮な海の幸、そして美味しいお米と地酒。宮城県はまさに食の宝庫です。</p>
                     </div>
                 </div>
-                <div class="spot-item">
-                    <div class="spot-image" style="background-image: url('https://picsum.photos/id/1036/800/600');"></div>
-                    <div class="spot-text">
-                        <h3>癒しの「蔵王・温泉」</h3>
-                        <p>エメラルドグリーンの火口湖「御釜」で知られる蔵王連峰。秋保や作並など、古くから愛される名湯も多く、旅の疲れをゆっくりと癒せます。</p>
-                    </div>
-                </div>
             </div>
         </section>
 
-        <section class="card access-section" id="access">
+        <section class="gallery-section" id="gallery">
+            <h2 class="js-fade-up">みやぎフォトギャラリー</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item js-zoom-in"><img src="https://picsum.photos/id/10/400/400" alt="風景1"></div>
+                <div class="gallery-item js-zoom-in"><img src="https://picsum.photos/id/28/400/400" alt="風景2"></div>
+                <div class="gallery-item js-zoom-in"><img src="https://picsum.photos/id/37/400/400" alt="風景3"></div>
+                <div class="gallery-item js-zoom-in"><img src="https://picsum.photos/id/46/400/400" alt="風景4"></div>
+                <div class="gallery-item js-zoom-in"><img src="https://picsum.photos/id/55/400/400" alt="風景5"></div>
+                <div class="gallery-item js-zoom-in"><img src="https://picsum.photos/id/64/400/400" alt="風景6"></div>
+            </div>
+        </section>
+
+        <section class="card access-section js-fade-up" id="access">
             <h2>アクセス情報</h2>
             <p class="access-lead">東京から新幹線で約1時間半。東北への玄関口です。</p>
             <ul class="access-info">
@@ -65,7 +100,7 @@
                 <li><strong>🚗 車:</strong> 東北自動車道 仙台宮城ICより市内各所へスムーズにアクセス</li>
             </ul>
             <div class="btn-wrapper">
-                <a href="#" class="btn">詳しい観光マップを見る</a>
+                <a href="#" class="btn effect-shine">詳しい観光マップを見る</a>
             </div>
         </section>
     </main>
