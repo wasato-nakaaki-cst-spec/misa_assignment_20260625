@@ -30,6 +30,13 @@ body {
     background-color: #fafafa;
     line-height: 1.6;
     overflow-x: hidden;
+    padding-top: 80px;
+    transition: padding-top 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* メニューバー非表示時は上余白を削除 */
+body.nav-closed {
+    padding-top: 0;
 }
 
 /* ナビゲーション */
@@ -41,7 +48,48 @@ body {
     backdrop-filter: blur(10px);
     z-index: 1000;
     box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+}
+
+/* メニューバー非表示状態 */
+.navbar.hidden {
+    transform: translateY(-100%);
+    box-shadow: none;
+}
+
+/* メニュー開閉トグルボタン */
+.nav-toggle {
+    position: fixed;
+    top: 1rem;
+    right: 1.5rem;
+    z-index: 1001;
+    width: 50px;
+    height: 50px;
+    border: none;
+    border-radius: 50%;
+    background: var(--gradient-pink);
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    box-shadow: 0 5px 20px rgba(255, 107, 157, 0.4);
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav-toggle:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 25px rgba(255, 107, 157, 0.5);
+}
+
+.nav-toggle:active {
+    transform: scale(0.95);
+}
+
+.nav-toggle-icon {
+    display: inline-block;
+    line-height: 1;
 }
 
 .nav-container {
@@ -100,7 +148,6 @@ body {
 
 /* ヒーローセクション */
 .hero {
-    margin-top: 80px;
     padding: 80px 2rem;
     min-height: 90vh;
     background: linear-gradient(135deg, rgba(255, 107, 157, 0.05) 0%, rgba(255, 160, 98, 0.05) 100%);
@@ -346,13 +393,30 @@ body {
     border-radius: 15px;
     overflow: hidden;
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
     cursor: pointer;
+    position: relative;
+}
+
+.spot-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.8s ease;
+    z-index: 1;
+}
+
+.spot-card:hover::before {
+    left: 100%;
 }
 
 .spot-card:hover {
-    transform: translateY(-15px) scale(1.02);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    transform: translateY(-20px) rotateZ(2deg) scale(1.05);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.25);
 }
 
 .spot-image-placeholder {
@@ -360,6 +424,34 @@ body {
     background: linear-gradient(135deg, #a8e6cf 0%, #dcedc8 100%);
     position: relative;
     overflow: hidden;
+    animation: image-zoom 0.6s ease;
+}
+
+@keyframes image-zoom {
+    from {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.spot-card:hover .spot-image-placeholder {
+    animation: image-pulse 0.6s ease;
+}
+
+@keyframes image-pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
 }
 
 .spot-image-placeholder::before {
@@ -468,23 +560,64 @@ body {
     border-radius: 15px;
     text-align: center;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-    transition: all 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.gourmet-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: -50px;
+    width: 100px;
+    height: 100%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.5) 0%, transparent 70%);
+    opacity: 0;
+    transition: all 0.4s ease;
+}
+
+.gourmet-card:hover::after {
+    opacity: 1;
+    right: -20px;
 }
 
 .gourmet-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    transform: translateY(-15px) rotateX(5deg);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
 }
 
 .gourmet-icon {
     font-size: 4rem;
     margin-bottom: 1rem;
     display: block;
-    transition: transform 0.3s ease;
+    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    animation: icon-float 3s ease-in-out infinite;
+}
+
+@keyframes icon-float {
+    0%, 100% {
+        transform: translateY(0px) scale(1);
+    }
+    50% {
+        transform: translateY(-15px) scale(1.1);
+    }
 }
 
 .gourmet-card:hover .gourmet-icon {
-    transform: scale(1.2) rotate(10deg);
+    animation: icon-spin-float 0.6s ease;
+}
+
+@keyframes icon-spin-float {
+    0% {
+        transform: scale(1) rotateZ(0deg) translateY(0);
+    }
+    50% {
+        transform: scale(1.3) rotateZ(180deg) translateY(-20px);
+    }
+    100% {
+        transform: scale(1.2) rotateZ(360deg) translateY(0);
+    }
 }
 
 .gourmet-card h3 {
@@ -516,8 +649,33 @@ body {
     border-radius: 15px;
     overflow: hidden;
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
     cursor: pointer;
+    position: relative;
+}
+
+.season-card::before {
+    content: '';
+    position: absolute;
+    top: -100%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.8), transparent);
+    opacity: 0;
+    transition: all 0.6s ease;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.season-card:hover::before {
+    top: 0;
+    opacity: 1;
+}
+
+.season-card:hover {
+    transform: translateY(-15px) rotateZ(-2deg) scale(1.03);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
 }
 
 .season-header {
@@ -547,17 +705,37 @@ body {
     font-size: 3rem;
     margin-bottom: 0.5rem;
     display: block;
-    animation: bounce 2s ease-in-out infinite;
+    animation: emoji-bounce 2s ease-in-out infinite;
+}
+
+@keyframes emoji-bounce {
+    0%, 100% {
+        transform: translateY(0) scale(1);
+    }
+    50% {
+        transform: translateY(-15px) scale(1.1);
+    }
+}
+
+.season-card:hover .season-emoji {
+    animation: emoji-spin-bounce 0.6s ease;
+}
+
+@keyframes emoji-spin-bounce {
+    0% {
+        transform: translateY(0) rotateZ(0deg) scale(1);
+    }
+    50% {
+        transform: translateY(-25px) rotateZ(180deg) scale(1.3);
+    }
+    100% {
+        transform: translateY(0) rotateZ(360deg) scale(1);
+    }
 }
 
 .season-header h3 {
     font-size: 1.5rem;
     margin: 0;
-}
-
-@keyframes bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
 }
 
 .season-content {
@@ -569,6 +747,18 @@ body {
     font-weight: 600;
     color: var(--primary-color);
     margin-bottom: 1rem;
+    animation: text-slide-in 0.5s ease;
+}
+
+@keyframes text-slide-in {
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }
 
 .season-content ul {
@@ -581,16 +771,34 @@ body {
     color: var(--text-light);
     position: relative;
     padding-left: 1.5rem;
+    transition: all 0.3s ease;
 }
 
 .season-content li::before {
     content: '✨';
     position: absolute;
     left: 0;
+    transition: all 0.3s ease;
 }
 
-.season-card:hover {
-    transform: translateY(-10px);
+.season-card:hover .season-content li {
+    transform: translateX(5px);
+}
+
+.season-card:hover .season-content li::before {
+    animation: sparkle-spin 0.6s ease;
+}
+
+@keyframes sparkle-spin {
+    0% {
+        transform: scale(1) rotateZ(0deg);
+    }
+    50% {
+        transform: scale(1.3) rotateZ(180deg);
+    }
+    100% {
+        transform: scale(1) rotateZ(360deg);
+    }
 }
 
 /* アクセスセクション */
@@ -612,12 +820,29 @@ body {
     background: white;
     border-radius: 15px;
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
-    transition: all 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.access-card::before {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #FFA062, #FF6B9D, #FFD93D);
+    transition: width 0.4s ease;
+}
+
+.access-card:hover::before {
+    width: 100%;
 }
 
 .access-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    transform: translateY(-12px) perspective(1000px) rotateX(3deg);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
 }
 
 .access-card h3 {
@@ -757,27 +982,86 @@ body {
 /* リベール効果 */
 .reveal {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(30px) scale(0.95);
+}
+
+.reveal.active {
     animation: reveal-in 0.8s ease forwards;
 }
 
 @keyframes reveal-in {
-    to {
+    0% {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+    }
+    50% {
+        transform: translateY(10px) scale(0.98);
+    }
+    100% {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateY(0) scale(1);
     }
 }
 
 .reveal-left {
     opacity: 0;
-    transform: translateX(-30px);
+    transform: translateX(-30px) rotateY(10deg);
+}
+
+.reveal-left.active {
     animation: reveal-left-in 0.8s ease forwards;
 }
 
 @keyframes reveal-left-in {
-    to {
+    0% {
+        opacity: 0;
+        transform: translateX(-30px) rotateY(10deg);
+    }
+    100% {
         opacity: 1;
-        transform: translateX(0);
+        transform: translateX(0) rotateY(0deg);
+    }
+}
+
+/* グロー効果 */
+@keyframes glow-pulse {
+    0%, 100% {
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    }
+    50% {
+        box-shadow: 0 15px 40px rgba(255, 107, 157, 0.2);
+    }
+}
+
+/* テキストアニメーション */
+@keyframes text-shimmer {
+    0% {
+        background-position: -1000px 0;
+    }
+    100% {
+        background-position: 1000px 0;
+    }
+}
+
+@keyframes float-up {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
     }
 }
 

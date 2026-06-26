@@ -1,3 +1,68 @@
+// グローバルスタイルの追加
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes particle-float {
+        0% { 
+            opacity: 1; 
+            transform: translate(0, 0) scale(1);
+        }
+        100% { 
+            opacity: 0; 
+            transform: translate(${Math.random() * 100 - 50}px, -100px) scale(0);
+        }
+    }
+    
+    @keyframes button-pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+    }
+    
+    @keyframes slideInRight {
+        from {
+            opacity: 0;
+            transform: translateX(100px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+    
+    @keyframes slideOutRight {
+        from {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        to {
+            opacity: 0;
+            transform: translateX(100px);
+        }
+    }
+    
+    @keyframes float-up {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    @keyframes letter-pop {
+        0% {
+            opacity: 0;
+            transform: translateY(20px) scale(0.5);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+`;
+document.head.appendChild(style);
+
 // モダンなスクロールアニメーション
 document.addEventListener('DOMContentLoaded', () => {
     // Intersection Observer for lazy animation
@@ -7,9 +72,13 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
+        entries.forEach((entry, index) => {
             if (entry.isIntersecting) {
-                entry.target.style.animationPlayState = 'running';
+                // 要素が見える時にクラス追加（アニメーション発動）
+                setTimeout(() => {
+                    entry.target.classList.add('active');
+                }, index * 80);
+                // 一度発動したら監視を解除（点滅防止・1回のみ）
                 observer.unobserve(entry.target);
             }
         });
@@ -18,36 +87,21 @@ document.addEventListener('DOMContentLoaded', () => {
     // reveal アニメーションの要素を監視
     const revealElements = document.querySelectorAll('.reveal, .reveal-left');
     revealElements.forEach(el => {
-        el.style.animationPlayState = 'paused';
         observer.observe(el);
     });
 
-    // スムーススクロール機能
     setupSmoothScroll();
-
-    // カウントアップアニメーション
     setupCounterAnimation();
-
-    // ナビゲーションスムーズスクロール
     setupNavigation();
-
-    // モーダル機能
     setupModal();
-
-    // ニュースレターフォーム
     setupNewsletterForm();
-
-    // コンタクトフォーム
     setupContactForm();
-
-    // パラレックス効果
     setupParallax();
-
-    // ナビゲーションのスティッキー効果
     setupStickyNav();
-
-    // スクロール時のホバーエフェクト
     setupScrollEffects();
+    setupMouseFollowEffect();
+    setupTextAnimation();
+    setup3DRotation();
 });
 
 // スムーススクロール
@@ -62,21 +116,50 @@ function setupSmoothScroll() {
                     top: offsetTop,
                     behavior: 'smooth'
                 });
+                createClickAnimation(e);
             }
         });
     });
 }
 
-// カウントアップアニメーション
+// クリック時のパーティクル効果
+function createClickAnimation(e) {
+    const x = e.clientX;
+    const y = e.clientY;
+    const particles = ['✨', '🌸', '💫', '⭐', '✨'];
+
+    for (let i = 0; i < 5; i++) {
+        const particle = document.createElement('div');
+        const randomX = (Math.random() - 0.5) * 200;
+        const randomY = (Math.random() - 0.5) * 200 - 100;
+        
+        particle.style.cssText = `
+            position: fixed;
+            left: ${x}px;
+            top: ${y}px;
+            pointer-events: none;
+            font-size: 1.5rem;
+            opacity: 1;
+            z-index: 9999;
+            animation: particle-float 1s ease-out forwards;
+            transform: translate(${randomX}px, ${randomY}px);
+        `;
+        particle.textContent = particles[i];
+        document.body.appendChild(particle);
+
+        setTimeout(() => particle.remove(), 1000);
+    }
+}
+
+// カウントアップアニメーション（1回のみ）
 function setupCounterAnimation() {
     const counters = document.querySelectorAll('.counter');
     let animated = false;
 
     const animateCounter = (element) => {
         const target = parseInt(element.getAttribute('data-target'));
-        const duration = 2000;
+        const duration = 2500;
         const startTime = Date.now();
-        const startValue = 0;
 
         const updateCounter = () => {
             const currentTime = Date.now();
@@ -84,8 +167,8 @@ function setupCounterAnimation() {
             const progress = Math.min(elapsed / duration, 1);
 
             // イージング関数
-            const easeOutQuad = 1 - Math.pow(1 - progress, 2);
-            const currentValue = Math.floor(startValue + (target - startValue) * easeOutQuad);
+            const easeOutQuint = 1 - Math.pow(1 - progress, 5);
+            const currentValue = Math.floor(target * easeOutQuint);
 
             element.textContent = currentValue.toLocaleString();
 
@@ -103,7 +186,9 @@ function setupCounterAnimation() {
         entries.forEach(entry => {
             if (entry.isIntersecting && !animated) {
                 animated = true;
-                counters.forEach(counter => animateCounter(counter));
+                counters.forEach((counter, index) => {
+                    setTimeout(() => animateCounter(counter), index * 150);
+                });
                 statsObserver.unobserve(entry.target);
             }
         });
@@ -121,12 +206,15 @@ function setupNavigation() {
     
     navLinks.forEach(link => {
         link.addEventListener('click', function() {
-            navLinks.forEach(l => l.style.color = 'inherit');
+            navLinks.forEach(l => {
+                l.style.color = 'inherit';
+                l.style.textDecoration = 'none';
+            });
             this.style.color = 'var(--primary-color)';
+            this.style.textDecoration = 'underline wavy var(--primary-color)';
         });
     });
 
-    // スクロール時のアクティブナビゲーション更新
     window.addEventListener('scroll', () => {
         updateActiveNavLink();
     });
@@ -142,11 +230,15 @@ function updateActiveNavLink() {
 
         if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
             const navLinks = document.querySelectorAll('.nav-link');
-            navLinks.forEach(link => link.style.color = 'inherit');
+            navLinks.forEach(link => {
+                link.style.color = 'inherit';
+                link.style.textDecoration = 'none';
+            });
             
             const activeLink = document.querySelector(`.nav-link[href="#${section.id}"]`);
             if (activeLink) {
                 activeLink.style.color = 'var(--primary-color)';
+                activeLink.style.textDecoration = 'underline wavy var(--primary-color)';
             }
         }
     });
@@ -178,6 +270,8 @@ function setupModal() {
     function openModal() {
         modal.classList.add('active');
         document.body.style.overflow = 'hidden';
+        const modalContent = modal.querySelector('.modal-content');
+        modalContent.style.animation = 'slideIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)';
     }
 
     function closeModal() {
@@ -193,11 +287,11 @@ function setupNewsletterForm() {
 
     form.addEventListener('submit', (e) => {
         e.preventDefault();
-        const email = form.querySelector('input[type="email"]').value;
-        
-        // シミュレーション
         showNotification('ありがとうございます！メールを送信しました。', 'success');
         form.reset();
+        
+        const btn = form.querySelector('.subscribe-btn');
+        btn.style.animation = 'button-pulse 0.6s ease';
     });
 }
 
@@ -208,14 +302,6 @@ function setupContactForm() {
 
     form.addEventListener('submit', (e) => {
         e.preventDefault();
-        
-        const formData = {
-            name: document.getElementById('name').value,
-            email: document.getElementById('email').value,
-            message: document.getElementById('message').value
-        };
-
-        // シミュレーション
         showNotification('お問い合わせをありがとうございました！', 'success');
         form.reset();
         
@@ -239,15 +325,14 @@ function showNotification(message, type = 'success') {
         border-radius: 10px;
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
         z-index: 3000;
-        animation: slideInRight 0.3s ease;
+        animation: slideInRight 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
     `;
     notification.textContent = message;
-
     document.body.appendChild(notification);
 
     setTimeout(() => {
-        notification.style.animation = 'slideOutRight 0.3s ease';
-        setTimeout(() => notification.remove(), 300);
+        notification.style.animation = 'slideOutRight 0.5s ease';
+        setTimeout(() => notification.remove(), 500);
     }, 3000);
 }
 
@@ -260,115 +345,132 @@ function setupParallax() {
         elements.forEach(el => {
             el.style.backgroundPosition = `center ${scrolled * 0.5}px`;
         });
-    });
+    }, { passive: true });
 }
 
-// スティッキーナビゲーション
+// メニューバーの開閉トグル
 function setupStickyNav() {
-    const navbar = document.querySelector('.navbar');
-    let lastScrollTop = 0;
+    const navbar = document.getElementById('navbar');
+    const navToggle = document.getElementById('navToggle');
 
-    window.addEventListener('scroll', () => {
-        const scrollTop = window.scrollY;
+    if (!navbar || !navToggle) return;
 
-        if (scrollTop > 100) {
-            if (scrollTop > lastScrollTop) {
-                // 下へスクロール
-                navbar.style.transform = 'translateY(-100%)';
-            } else {
-                // 上へスクロール
-                navbar.style.transform = 'translateY(0)';
-            }
+    const icon = navToggle.querySelector('.nav-toggle-icon');
+
+    // 初期状態：メニューバー表示中なので×アイコン
+    icon.textContent = '✕';
+    navToggle.classList.add('open');
+
+    // ボタンクリックで表示/非表示を切り替え
+    navToggle.addEventListener('click', () => {
+        navbar.classList.toggle('hidden');
+        navToggle.classList.toggle('open');
+        document.body.classList.toggle('nav-closed');
+
+        // アイコンを切り替え（☰ ⇔ ✕）
+        if (navbar.classList.contains('hidden')) {
+            icon.textContent = '☰';
+        } else {
+            icon.textContent = '✕';
         }
-
-        lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
     });
-
-    navbar.style.transition = 'transform 0.3s ease';
 }
 
 // スクロールエフェクト
 function setupScrollEffects() {
     window.addEventListener('scroll', () => {
         const scrolled = window.pageYOffset;
+        
+        // 浮遊要素
         const floatingElements = document.querySelectorAll('.floating-element');
-
         floatingElements.forEach((el, index) => {
             const speed = 0.5 + index * 0.1;
-            el.style.transform = `translateY(${scrolled * speed}px)`;
+            el.style.transform = `translateY(${scrolled * speed}px) rotateZ(${scrolled * 0.1}deg)`;
+        });
+
+        // カード効果
+        const cards = document.querySelectorAll('.spot-card, .gourmet-card, .access-card, .season-card');
+        cards.forEach(card => {
+            const rect = card.getBoundingClientRect();
+            const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+            
+            if (isVisible) {
+                const scrollPercent = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
+                card.style.opacity = Math.min(scrollPercent + 0.3, 1);
+                card.style.transform = `translateY(${(1 - scrollPercent) * 20}px)`;
+            }
+        });
+    }, { passive: true });
+}
+
+// マウス追従エフェクト
+function setupMouseFollowEffect() {
+    const cards = document.querySelectorAll('.spot-card, .gourmet-card, .season-card, .access-card');
+
+    cards.forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            const xPercent = (x / rect.width - 0.5) * 10;
+            const yPercent = (y / rect.height - 0.5) * 10;
+
+            card.style.setProperty('--mouse-x', `${xPercent}deg`);
+            card.style.setProperty('--mouse-y', `${yPercent}deg`);
+        });
+
+        card.addEventListener('mouseleave', () => {
+            card.style.setProperty('--mouse-x', '0deg');
+            card.style.setProperty('--mouse-y', '0deg');
         });
     });
 }
 
-// リップルエフェクト（ボタンクリック時）
-document.addEventListener('click', (e) => {
-    const target = e.target;
-    
-    if (target.classList.contains('cta-button') || 
-        target.classList.contains('submit-btn') ||
-        target.classList.contains('subscribe-btn')) {
-        createRipple(e, target);
-    }
-});
+// テキストアニメーション
+function setupTextAnimation() {
+    const titleElements = document.querySelectorAll('.hero-title, .section-title');
 
-function createRipple(e, element) {
-    const ripple = document.createElement('span');
-    const rect = element.getBoundingClientRect();
-    const size = Math.max(rect.width, rect.height);
-    const x = e.clientX - rect.left - size / 2;
-    const y = e.clientY - rect.top - size / 2;
+    titleElements.forEach(el => {
+        const text = el.textContent;
+        el.innerHTML = '';
 
-    ripple.style.cssText = `
-        position: absolute;
-        width: ${size}px;
-        height: ${size}px;
-        background: rgba(255, 255, 255, 0.5);
-        border-radius: 50%;
-        left: ${x}px;
-        top: ${y}px;
-        animation: rippleAnimation 0.6s ease-out;
-        pointer-events: none;
-    `;
-
-    // スタイルシートに追加
-    if (!document.getElementById('ripple-style')) {
-        const style = document.createElement('style');
-        style.id = 'ripple-style';
-        style.textContent = `
-            @keyframes rippleAnimation {
-                to {
-                    transform: scale(4);
-                    opacity: 0;
-                }
-            }
-            button, a {
-                position: relative;
-                overflow: hidden;
-            }
-        `;
-        document.head.appendChild(style);
-    }
-
-    element.style.position = 'relative';
-    element.appendChild(ripple);
-
-    setTimeout(() => ripple.remove(), 600);
+        [...text].forEach((char, index) => {
+            const span = document.createElement('span');
+            span.textContent = char;
+            span.style.animation = `letter-pop 0.5s ease ${index * 50}ms both`;
+            span.style.display = 'inline-block';
+            el.appendChild(span);
+        });
+    });
 }
 
-// スクロール時のカード効果
-document.addEventListener('scroll', () => {
-    const cards = document.querySelectorAll('.spot-card, .gourmet-card, .access-card');
-    
-    cards.forEach(card => {
-        const rect = card.getBoundingClientRect();
-        const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+// 3D回転効果
+function setup3DRotation() {
+    window.addEventListener('mousemove', (e) => {
+        const cards = document.querySelectorAll('.spot-card, .gourmet-card');
         
-        if (isVisible) {
-            const scrollPercent = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
-            card.style.opacity = Math.min(scrollPercent + 0.3, 1);
-        }
+        cards.forEach(card => {
+            const rect = card.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+
+            const angleX = (e.clientY - centerY) / 10;
+            const angleY = (e.clientX - centerX) / 10;
+
+            if (Math.abs(angleX) < 20 && Math.abs(angleY) < 20) {
+                card.style.transform = `perspective(1000px) rotateX(${angleX}deg) rotateY(${angleY}deg)`;
+            }
+        });
+    }, { passive: true });
+
+    document.addEventListener('mouseleave', () => {
+        const cards = document.querySelectorAll('.spot-card, .gourmet-card');
+        cards.forEach(card => {
+            card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
+        });
     });
-});
+}
 
 // キーボードナビゲーション
 document.addEventListener('keydown', (e) => {
@@ -381,11 +483,9 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-// ページロード時のアニメーション
+// ページロード
 window.addEventListener('load', () => {
     document.body.style.opacity = '1';
-    
-    // ヒーロー要素にフェードインエフェクト
     const heroContent = document.querySelector('.hero-content');
     if (heroContent) {
         heroContent.style.opacity = '1';
@@ -393,80 +493,7 @@ window.addEventListener('load', () => {
     }
 });
 
-// リサイズ時のレスポンシブ調整
-window.addEventListener('resize', () => {
-    const width = window.innerWidth;
-    
-    if (width <= 768) {
-        document.querySelector('.nav-links').style.fontSize = '0.9rem';
-    } else {
-        document.querySelector('.nav-links').style.fontSize = '1rem';
-    }
-});
-
-// パフォーマンス最適化: Passive Event Listener
-window.addEventListener('scroll', () => {
-    // スクロール処理
-}, { passive: true });
-
-// ホイールスクロールの遅延ローディング用
-document.addEventListener('wheel', () => {
-    // 画像のLazy loading などここで処理可能
-}, { passive: true });
-
-// 追加: カスタムカーソル効果（オプション）
-document.addEventListener('mousemove', (e) => {
-    const buttons = document.querySelectorAll('.cta-button, .submit-btn, .subscribe-btn');
-    
-    buttons.forEach(btn => {
-        const rect = btn.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        
-        const isNear = x > -50 && x < rect.width + 50 && y > -50 && y < rect.height + 50;
-        
-        if (isNear) {
-            btn.style.cursor = 'pointer';
-        }
-    });
-});
-
-// スクロール位置の記憶と復元
-window.addEventListener('beforeunload', () => {
-    sessionStorage.setItem('scrollPosition', window.scrollY);
-});
-
-window.addEventListener('load', () => {
-    const scrollPosition = sessionStorage.getItem('scrollPosition');
-    if (scrollPosition) {
-        window.scrollTo(0, parseInt(scrollPosition));
-    }
-});
-
-// パフォーマンス監視（開発用）
-if (window.performance && window.performance.timing) {
-    window.addEventListener('load', () => {
-        const perfTiming = window.performance.timing;
-        const pageLoadTime = perfTiming.loadEventEnd - perfTiming.navigationStart;
-        console.log('Page Load Time: ' + pageLoadTime + 'ms');
-    });
-}
-
-// ナビゲーションリンクのアクティブ状態管理
-document.querySelectorAll('.nav-link').forEach(link => {
-    link.addEventListener('click', function() {
-        document.querySelectorAll('.nav-link').forEach(l => {
-            l.style.color = 'var(--text-dark)';
-        });
-        this.style.color = 'var(--primary-color)';
-    });
-});
-
-// グローバルエラーハンドリング
-window.addEventListener('error', (event) => {
-    console.error('Error:', event.error);
-});
-
-// 最後に: ページ初期化完了フラグ
+// 最後に: ページ初期化完了
 window.pageReady = true;
 console.log('🎉 宮城県観光PRサイトが読み込まれました！');
+console.log('✨ ポップでキュートな動きをお楽しみください！');
