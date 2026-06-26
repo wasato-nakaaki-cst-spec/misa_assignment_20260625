@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Intersection Observer for lazy animation
     const observerOptions = {
         threshold: 0.1,
-        rootMargin: '0px 0px -100px 0px'
+        rootMargin: '0px 0px 80px 0px'
     };
 
     const observer = new IntersectionObserver((entries) => {
@@ -99,9 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setupParallax();
     setupStickyNav();
     setupScrollEffects();
-    setupMouseFollowEffect();
     setupTextAnimation();
-    setup3DRotation();
     setupSeasonTabs();
 });
 
@@ -136,6 +134,8 @@ function setupSeasonTabs() {
 function setupSmoothScroll() {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
+            // お問い合わせモーダルのトリガーはスクロール対象外（モーダル側で処理）
+            if (this.getAttribute('href') === '#contact') return;
             e.preventDefault();
             const target = document.querySelector(this.getAttribute('href'));
             if (target) {
@@ -384,31 +384,58 @@ function setupStickyNav() {
     if (!navbar || !navToggle) return;
 
     const icon = navToggle.querySelector('.nav-toggle-icon');
+    const isMobile = () => window.matchMedia('(max-width: 768px)').matches;
 
-    // 初期状態：メニューバー表示中なので×アイコン
-    icon.textContent = '✕';
-    navToggle.classList.add('open');
-
-    // ボタンクリックで表示/非表示を切り替え
-    navToggle.addEventListener('click', () => {
-        navbar.classList.toggle('hidden');
-        navToggle.classList.toggle('open');
-        document.body.classList.toggle('nav-closed');
-
-        // アイコンを切り替え（☰ ⇔ ✕）
-        if (navbar.classList.contains('hidden')) {
-            icon.textContent = '☰';
+    // アイコンを現在の状態に合わせて更新
+    const syncIcon = () => {
+        if (isMobile()) {
+            // スマホ：メニュー（リンク）が開いていれば×、閉じていれば☰
+            icon.textContent = navbar.classList.contains('nav-open') ? '✕' : '☰';
         } else {
-            icon.textContent = '✕';
+            // PC：バーが表示中なら×、非表示なら☰
+            icon.textContent = navbar.classList.contains('hidden') ? '☰' : '✕';
         }
+    };
+
+    syncIcon();
+
+    // ボタンクリック：スマホはリンク開閉、PCはバー表示/非表示
+    navToggle.addEventListener('click', () => {
+        if (isMobile()) {
+            navbar.classList.toggle('nav-open');
+        } else {
+            navbar.classList.toggle('hidden');
+            document.body.classList.toggle('nav-closed');
+        }
+        syncIcon();
+    });
+
+    // スマホ：リンクをタップしたらメニューを閉じる
+    navbar.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', () => {
+            if (isMobile()) {
+                navbar.classList.remove('nav-open');
+                syncIcon();
+            }
+        });
+    });
+
+    // ブレークポイントをまたいだ時に状態をリセット
+    window.addEventListener('resize', () => {
+        navbar.classList.remove('nav-open', 'hidden');
+        document.body.classList.remove('nav-closed');
+        syncIcon();
     });
 }
 
 // スクロールエフェクト
 function setupScrollEffects() {
     window.addEventListener('scroll', () => {
+        // スマホではアイコンを本文下に通常配置するため視差は無効
+        if (window.matchMedia('(max-width: 768px)').matches) return;
+
         const scrolled = window.pageYOffset;
-        
+
         // 浮遊要素
         const floatingElements = document.querySelectorAll('.floating-element');
         floatingElements.forEach((el, index) => {
@@ -416,43 +443,7 @@ function setupScrollEffects() {
             el.style.transform = `translateY(${scrolled * speed}px) rotateZ(${scrolled * 0.1}deg)`;
         });
 
-        // カード効果
-        const cards = document.querySelectorAll('.spot-card, .gourmet-card, .access-card, .season-card');
-        cards.forEach(card => {
-            const rect = card.getBoundingClientRect();
-            const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
-            
-            if (isVisible) {
-                const scrollPercent = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
-                card.style.opacity = Math.min(scrollPercent + 0.3, 1);
-                card.style.transform = `translateY(${(1 - scrollPercent) * 20}px)`;
-            }
-        });
     }, { passive: true });
-}
-
-// マウス追従エフェクト
-function setupMouseFollowEffect() {
-    const cards = document.querySelectorAll('.spot-card, .gourmet-card, .season-card, .access-card');
-
-    cards.forEach(card => {
-        card.addEventListener('mousemove', (e) => {
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-
-            const xPercent = (x / rect.width - 0.5) * 10;
-            const yPercent = (y / rect.height - 0.5) * 10;
-
-            card.style.setProperty('--mouse-x', `${xPercent}deg`);
-            card.style.setProperty('--mouse-y', `${yPercent}deg`);
-        });
-
-        card.addEventListener('mouseleave', () => {
-            card.style.setProperty('--mouse-x', '0deg');
-            card.style.setProperty('--mouse-y', '0deg');
-        });
-    });
 }
 
 // テキストアニメーション
@@ -469,33 +460,6 @@ function setupTextAnimation() {
             span.style.animation = `letter-pop 0.5s ease ${index * 50}ms both`;
             span.style.display = 'inline-block';
             el.appendChild(span);
-        });
-    });
-}
-
-// 3D回転効果
-function setup3DRotation() {
-    window.addEventListener('mousemove', (e) => {
-        const cards = document.querySelectorAll('.spot-card, .gourmet-card');
-        
-        cards.forEach(card => {
-            const rect = card.getBoundingClientRect();
-            const centerX = rect.left + rect.width / 2;
-            const centerY = rect.top + rect.height / 2;
-
-            const angleX = (e.clientY - centerY) / 10;
-            const angleY = (e.clientX - centerX) / 10;
-
-            if (Math.abs(angleX) < 20 && Math.abs(angleY) < 20) {
-                card.style.transform = `perspective(1000px) rotateX(${angleX}deg) rotateY(${angleY}deg)`;
-            }
-        });
-    }, { passive: true });
-
-    document.addEventListener('mouseleave', () => {
-        const cards = document.querySelectorAll('.spot-card, .gourmet-card');
-        cards.forEach(card => {
-            card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
         });
     });
 }
