@@ -109,6 +109,8 @@ body.nav-closed {
     -webkit-text-fill-color: transparent;
     background-clip: text;
     cursor: pointer;
+    text-decoration: none;
+    color: inherit;
     transition: transform 0.3s ease;
 }
 
@@ -416,21 +418,6 @@ body.nav-closed {
     }
 }
 
-.spot-card:hover .spot-image-placeholder {
-    animation: image-pulse 0.6s ease;
-}
-
-@keyframes image-pulse {
-    0% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.05);
-    }
-    100% {
-        transform: scale(1);
-    }
-}
 
 .matsushima {
     background: linear-gradient(135deg, #56CCF2 0%, #B2EBF2 100%);
@@ -636,13 +623,16 @@ body.nav-closed {
     overflow: hidden;
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
     transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-    cursor: pointer;
     position: relative;
 }
 
 .season-card.active {
     display: block;
     animation: season-fade-in 0.5s ease;
+}
+
+.season-card:hover {
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.25);
 }
 
 @keyframes season-fade-in {

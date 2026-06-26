@@ -1,17 +1,6 @@
 // グローバルスタイルの追加
 const style = document.createElement('style');
 style.textContent = `
-    @keyframes particle-float {
-        0% { 
-            opacity: 1; 
-            transform: translate(0, 0) scale(1);
-        }
-        100% { 
-            opacity: 0; 
-            transform: translate(${Math.random() * 100 - 50}px, -100px) scale(0);
-        }
-    }
-    
     @keyframes button-pulse {
         0%, 100% { transform: scale(1); }
         50% { transform: scale(1.05); }
@@ -144,39 +133,9 @@ function setupSmoothScroll() {
                     top: offsetTop,
                     behavior: 'smooth'
                 });
-                createClickAnimation(e);
             }
         });
     });
-}
-
-// クリック時のパーティクル効果
-function createClickAnimation(e) {
-    const x = e.clientX;
-    const y = e.clientY;
-    const particles = ['✨', '🌸', '💫', '⭐', '✨'];
-
-    for (let i = 0; i < 5; i++) {
-        const particle = document.createElement('div');
-        const randomX = (Math.random() - 0.5) * 200;
-        const randomY = (Math.random() - 0.5) * 200 - 100;
-        
-        particle.style.cssText = `
-            position: fixed;
-            left: ${x}px;
-            top: ${y}px;
-            pointer-events: none;
-            font-size: 1.5rem;
-            opacity: 1;
-            z-index: 9999;
-            animation: particle-float 1s ease-out forwards;
-            transform: translate(${randomX}px, ${randomY}px);
-        `;
-        particle.textContent = particles[i];
-        document.body.appendChild(particle);
-
-        setTimeout(() => particle.remove(), 1000);
-    }
 }
 
 // カウントアップアニメーション（1回のみ）
