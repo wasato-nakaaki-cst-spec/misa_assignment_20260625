@@ -16,6 +16,7 @@
                 <li><a href="#spots" class="nav-link">観光地</a></li>
                 <li><a href="#gourmet" class="nav-link">グルメ</a></li>
                 <li><a href="#seasons" class="nav-link">季節</a></li>
+                <li><a href="#access" class="nav-link">アクセス</a></li>
                 <li><a href="#contact" class="nav-link">お問い合わせ</a></li>
             </ul>
         </div>
@@ -58,11 +59,6 @@
                 <div class="overview-icon">🍜</div>
                 <h3>美食の宝庫</h3>
                 <p>牛タン、ずんだ、わかめなど名物グルメ</p>
-            </div>
-            <div class="overview-card reveal">
-                <div class="overview-icon">🏛️</div>
-                <h3>歴史に彩られた</h3>
-                <p>伊達政宗と戦国の足跡が今も息づく</p>
             </div>
         </div>
     </section>
@@ -200,8 +196,14 @@
     <!-- 季節の楽しみセクション -->
     <section id="seasons" class="seasons">
         <h2 class="section-title">季節ごとの楽しみ</h2>
+        <div class="season-tabs">
+            <button class="season-tab active" data-season="spring">🌸 春</button>
+            <button class="season-tab" data-season="summer">☀️ 夏</button>
+            <button class="season-tab" data-season="autumn">🍁 秋</button>
+            <button class="season-tab" data-season="winter">⛄ 冬</button>
+        </div>
         <div class="seasons-container">
-            <div class="season-card spring reveal">
+            <div class="season-card spring active" data-season="spring">
                 <div class="season-header">
                     <div class="season-emoji">🌸</div>
                     <h3>春</h3>
@@ -216,7 +218,7 @@
                 </div>
             </div>
 
-            <div class="season-card summer reveal">
+            <div class="season-card summer" data-season="summer">
                 <div class="season-header">
                     <div class="season-emoji">☀️</div>
                     <h3>夏</h3>
@@ -231,7 +233,7 @@
                 </div>
             </div>
 
-            <div class="season-card autumn reveal">
+            <div class="season-card autumn" data-season="autumn">
                 <div class="season-header">
                     <div class="season-emoji">🍁</div>
                     <h3>秋</h3>
@@ -246,7 +248,7 @@
                 </div>
             </div>
 
-            <div class="season-card winter reveal">
+            <div class="season-card winter" data-season="winter">
                 <div class="season-header">
                     <div class="season-emoji">⛄</div>
                     <h3>冬</h3>
@@ -264,7 +266,7 @@
     </section>
 
     <!-- アクセス情報 -->
-    <section class="access">
+    <section id="access" class="access">
         <h2 class="section-title">アクセス情報</h2>
         <div class="access-grid">
             <div class="access-card reveal">

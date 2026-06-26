@@ -102,7 +102,35 @@ document.addEventListener('DOMContentLoaded', () => {
     setupMouseFollowEffect();
     setupTextAnimation();
     setup3DRotation();
+    setupSeasonTabs();
 });
+
+// 季節タブ切り替え
+function setupSeasonTabs() {
+    const tabs = document.querySelectorAll('.season-tab');
+    const cards = document.querySelectorAll('.season-card');
+
+    if (!tabs.length || !cards.length) return;
+
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            const season = tab.getAttribute('data-season');
+
+            // タブのアクティブ状態を切り替え
+            tabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+
+            // カードの表示を切り替え
+            cards.forEach(card => {
+                if (card.getAttribute('data-season') === season) {
+                    card.classList.add('active');
+                } else {
+                    card.classList.remove('active');
+                }
+            });
+        });
+    });
+}
 
 // スムーススクロール
 function setupSmoothScroll() {
