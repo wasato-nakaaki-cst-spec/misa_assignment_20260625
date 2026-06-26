@@ -448,7 +448,7 @@ function setupScrollEffects() {
 
 // テキストアニメーション
 function setupTextAnimation() {
-    const titleElements = document.querySelectorAll('.hero-title, .section-title');
+    const titleElements = document.querySelectorAll('.hero-title');
 
     titleElements.forEach(el => {
         const text = el.textContent;
