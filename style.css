@@ -124,6 +124,17 @@ body.nav-closed {
     gap: 2rem;
 }
 
+/* 狭めのPCでは、右上固定の開閉ボタンと最後のリンクが重ならないよう余白を確保 */
+@media (min-width: 769px) and (max-width: 1320px) {
+    .nav-container {
+        padding-right: 6.75rem;
+    }
+
+    .nav-links {
+        gap: clamp(1rem, 2vw, 2rem);
+    }
+}
+
 .nav-link {
     text-decoration: none;
     color: var(--text-dark);
