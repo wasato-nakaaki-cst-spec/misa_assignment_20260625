@@ -5,7 +5,7 @@ style.textContent = `
         0%, 100% { transform: scale(1); }
         50% { transform: scale(1.05); }
     }
-    
+
     @keyframes slideInRight {
         from {
             opacity: 0;
@@ -16,7 +16,7 @@ style.textContent = `
             transform: translateX(0);
         }
     }
-    
+
     @keyframes slideOutRight {
         from {
             opacity: 1;
@@ -27,7 +27,7 @@ style.textContent = `
             transform: translateX(100px);
         }
     }
-    
+
     @keyframes float-up {
         from {
             opacity: 0;
@@ -38,7 +38,7 @@ style.textContent = `
             transform: translateY(0);
         }
     }
-    
+
     @keyframes letter-pop {
         0% {
             opacity: 0;
@@ -49,11 +49,428 @@ style.textContent = `
             transform: translateY(0) scale(1);
         }
     }
+
+    .language-selector {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 2000;
+        background: white;
+        border-radius: 8px;
+        padding: 5px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        display: flex;
+        gap: 5px;
+    }
+
+    .lang-btn {
+        padding: 8px 12px;
+        border: none;
+        background: transparent;
+        cursor: pointer;
+        font-weight: 500;
+        color: #666;
+        border-radius: 5px;
+        transition: all 0.3s ease;
+    }
+
+    .lang-btn:hover {
+        background: #f0f0f0;
+    }
+
+    .lang-btn.active {
+        background: var(--primary-color);
+        color: white;
+    }
 `;
 document.head.appendChild(style);
 
+// 言語管理システム
+let languageMetadata = {};
+let languageData = {};
+let currentLanguage = 'ja';
+
+// 言語メタデータと言語データを読み込む
+async function loadLanguages() {
+    try {
+        // 言語一覧を読み込む
+        const metaResponse = await fetch('data/languages.json');
+        languageMetadata = await metaResponse.json();
+        console.log('言語メタデータ読み込み成功:', languageMetadata);
+
+        // 初期言語（日本語）のデータを読み込む
+        await loadLanguageData('ja');
+        console.log('日本語データ読み込み成功');
+
+        updatePageContent();
+        initLanguageSelector();
+        console.log('言語セレクター初期化完了');
+
+        await loadStoredLanguage();
+    } catch (error) {
+        console.error('言語ファイルの読み込みに失敗しました:', error);
+    }
+}
+
+// 指定言語のデータを読み込む
+async function loadLanguageData(lang) {
+    try {
+        const langInfo = languageMetadata[lang];
+        if (!langInfo) {
+            console.error(`言語 ${lang} が見つかりません`);
+            return;
+        }
+
+        const filePath = `data/locales/${langInfo.file}`;
+        const response = await fetch(filePath);
+        languageData = await response.json();
+    } catch (error) {
+        console.error(`言語ファイル読み込みエラー (${lang}):`, error);
+    }
+}
+
+// 言語セレクターを初期化
+function initLanguageSelector() {
+    const buttons = document.querySelectorAll('.lang-btn');
+    if (!buttons.length) return;
+
+    buttons.forEach(btn => {
+        btn.addEventListener('click', async () => {
+            const lang = btn.dataset.lang;
+            await switchLanguage(lang);
+        });
+    });
+
+    updateLanguageButtons();
+}
+
+// 言語を切り替え
+async function switchLanguage(lang) {
+    console.log('言語切り替え開始:', lang);
+    currentLanguage = lang;
+    localStorage.setItem('selectedLanguage', lang);
+    await loadLanguageData(lang);
+    console.log('言語データ読み込み完了:', lang);
+    updatePageContent();
+    updateLanguageButtons();
+    console.log('言語切り替え完了:', lang);
+}
+
+// 言語ボタンの状態を更新
+function updateLanguageButtons() {
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.lang === currentLanguage);
+    });
+}
+
+// 保存された言語を読み込む
+async function loadStoredLanguage() {
+    const stored = localStorage.getItem('selectedLanguage');
+    if (stored && languageMetadata[stored]) {
+        currentLanguage = stored;
+        await loadLanguageData(stored);
+        updatePageContent();
+        updateLanguageButtons();
+    }
+}
+
+// ページコンテンツを更新
+function updatePageContent() {
+    const t = languageData;
+    if (!t) return;
+
+    // ナビゲーション
+    const logo = document.querySelector('a.logo');
+    if (logo) logo.textContent = `🌸 ${t.nav.brand}`;
+    updateNavLinks();
+
+    // ヒーロー
+    const heroTitle = document.querySelector('.hero-title');
+    if (heroTitle) {
+        heroTitle.innerHTML = '';
+        const text = t.hero.title;
+        [...text].forEach((char, index) => {
+            const span = document.createElement('span');
+            // スペースの場合は非改行スペースを使用
+            span.textContent = char === ' ' ? ' ' : char;
+            span.style.animation = `letter-pop 0.5s ease ${index * 50}ms both`;
+            span.style.display = 'inline-block';
+            heroTitle.appendChild(span);
+        });
+    }
+
+    const heroSubtitle = document.querySelector('.hero-subtitle');
+    if (heroSubtitle) heroSubtitle.textContent = t.hero.subtitle;
+
+    const heroDesc = document.querySelector('.hero-description');
+    if (heroDesc) heroDesc.innerHTML = t.hero.description;
+
+    const ctaButton = document.querySelector('.cta-button');
+    if (ctaButton) ctaButton.textContent = t.hero.cta;
+
+    // セクションタイトル
+    document.querySelectorAll('.section-title').forEach((el, idx) => {
+        if (idx === 0) el.textContent = t.spots.title;
+        else if (idx === 1) el.textContent = t.gourmet.title;
+        else if (idx === 2) el.textContent = t.seasons.title;
+        else if (idx === 3) el.textContent = t.access.title;
+    });
+
+    // その他の要素を更新
+    updateOverviewCards();
+    updateStats();
+    updateSpotCards();
+    updateGourmetCards();
+    updateSeasonCards();
+    updateAccessCards();
+    updateNewsletter();
+    updateFooter();
+    updateContactForm();
+    updatePhotoCredits();
+}
+
+function updateNavLinks() {
+    const t = languageData;
+    const navLinks = document.querySelectorAll('.nav-link');
+    const linkMap = {
+        '#home': t.nav.home,
+        '#spots': t.nav.spots,
+        '#gourmet': t.nav.gourmet,
+        '#seasons': t.nav.seasons,
+        '#access': t.nav.access
+    };
+
+    navLinks.forEach(link => {
+        const href = link.getAttribute('href');
+        if (linkMap[href]) link.textContent = linkMap[href];
+    });
+}
+
+function updateOverviewCards() {
+    const t = languageData;
+    const cards = document.querySelectorAll('.overview-card');
+    const data = [
+        { title: t.overview.title1, desc: t.overview.desc1 },
+        { title: t.overview.title2, desc: t.overview.desc2 },
+        { title: t.overview.title3, desc: t.overview.desc3 }
+    ];
+
+    cards.forEach((card, idx) => {
+        if (data[idx]) {
+            const h3 = card.querySelector('h3');
+            const p = card.querySelector('p');
+            if (h3) h3.textContent = data[idx].title;
+            if (p) p.textContent = data[idx].desc;
+        }
+    });
+}
+
+function updateStats() {
+    const t = languageData;
+    const statLabels = document.querySelectorAll('.stat-label');
+    statLabels.forEach((label, idx) => {
+        if (idx === 0) label.textContent = t.stats.visitors;
+        else if (idx === 1) label.textContent = t.stats.history;
+        else if (idx === 2) label.textContent = t.stats.hotsprings;
+    });
+}
+
+function updateSpotCards() {
+    const t = languageData;
+    const spotCards = document.querySelectorAll('.spot-card');
+    const spotsArray = ['matsushima', 'sendai', 'shiogama', 'naruko', 'kesennuma', 'zao'];
+
+    spotCards.forEach((card, idx) => {
+        const spotKey = spotsArray[idx];
+        if (t.spots[spotKey]) {
+            const h3 = card.querySelector('h3');
+            const p = card.querySelector('p');
+            const link = card.querySelector('.spot-link');
+            if (h3) h3.textContent = t.spots[spotKey].name;
+            if (p) p.textContent = t.spots[spotKey].desc;
+            if (link) link.textContent = t.common.details;
+        }
+    });
+}
+
+function updateGourmetCards() {
+    const t = languageData;
+    const gourmetCards = document.querySelectorAll('.gourmet-card');
+    const gourmetArray = ['gyutan', 'zunda', 'kaki', 'sasakama', 'fukahire', 'harako'];
+
+    gourmetCards.forEach((card, idx) => {
+        const gourmetKey = gourmetArray[idx];
+        if (t.gourmet[gourmetKey]) {
+            const h3 = card.querySelector('h3');
+            const p = card.querySelector('p');
+            if (h3) h3.textContent = t.gourmet[gourmetKey].name;
+            if (p) p.textContent = t.gourmet[gourmetKey].desc;
+        }
+    });
+}
+
+function updateSeasonCards() {
+    const t = languageData;
+    const seasonTabs = document.querySelectorAll('.season-tab');
+    seasonTabs.forEach((tab, idx) => {
+        const seasonKey = tab.dataset.season;
+        const seasonText = t.seasons[seasonKey];
+        if (seasonText) {
+            const icon = tab.textContent.split(' ')[0];
+            tab.textContent = `${icon} ${seasonText}`;
+        }
+    });
+
+    const seasonCards = document.querySelectorAll('.season-card');
+    seasonCards.forEach(card => {
+        const seasonKey = card.dataset.season;
+        const seasonData = t.seasons[seasonKey + 'Period'];
+        const seasonItems = t.seasons[seasonKey + 'Items'];
+
+        if (seasonData) {
+            const pTag = card.querySelector('p');
+            if (pTag) pTag.innerHTML = `<strong>${seasonData}</strong>`;
+        }
+
+        if (seasonItems) {
+            const ul = card.querySelector('ul');
+            if (ul) {
+                ul.innerHTML = seasonItems.map((item, idx) => {
+                    const icon = ul.children[idx]?.getAttribute('data-icon') || '🌸';
+                    return `<li data-icon="${icon}">${item}</li>`;
+                }).join('');
+            }
+        }
+    });
+}
+
+function updateAccessCards() {
+    const t = languageData;
+
+    // アクセスセクションのリード文を更新
+    const accessLead = document.querySelector('.access-lead');
+    if (accessLead) {
+        accessLead.textContent = t.access.lead;
+    }
+
+    const accessCards = document.querySelectorAll('.access-card');
+    const accessData = [t.access.airplane, t.access.shinkansen, t.access.car];
+
+    accessCards.forEach((card, idx) => {
+        if (accessData[idx]) {
+            const h3 = card.querySelector('h3');
+            const desc = card.querySelector(':scope > p');
+            const ul = card.querySelector('ul');
+
+            if (h3) h3.textContent = accessData[idx].title;
+            if (desc) desc.textContent = accessData[idx].desc;
+            if (ul && accessData[idx].items) {
+                ul.innerHTML = accessData[idx].items.map(item => `<li>${item}</li>`).join('');
+            }
+        }
+    });
+}
+
+function updateNewsletter() {
+    const t = languageData;
+    const newsletter = document.querySelector('.newsletter');
+    if (newsletter) {
+        const h2 = newsletter.querySelector('h2');
+        const p = newsletter.querySelector('.newsletter-content p');
+        const input = newsletter.querySelector('input');
+        const button = newsletter.querySelector('.subscribe-btn');
+
+        if (h2) h2.textContent = t.newsletter.title;
+        if (p) p.textContent = t.newsletter.desc;
+        if (input) input.placeholder = t.newsletter.placeholder;
+        if (button) button.textContent = t.newsletter.button;
+    }
+}
+
+function updateFooter() {
+    const t = languageData;
+    const footerSections = document.querySelectorAll('.footer-section');
+
+    footerSections.forEach((section, idx) => {
+        const h4 = section.querySelector('h4');
+        const links = section.querySelectorAll('a');
+
+        if (idx === 0) {
+            if (h4) h4.textContent = t.footer.tourism;
+            links[0].textContent = t.footer.official;
+            links[1].textContent = t.footer.events;
+        } else if (idx === 1) {
+            if (h4) h4.textContent = t.footer.support;
+            links[0].textContent = t.footer.contact;
+            links[1].textContent = t.footer.faq;
+            links[2].textContent = t.footer.privacy;
+        } else if (idx === 2) {
+            if (h4) h4.textContent = t.footer.follow;
+            links[0].textContent = t.footer.facebook;
+            links[1].textContent = t.footer.instagram;
+            links[2].textContent = t.footer.x;
+        } else if (idx === 3) {
+            if (h4) h4.textContent = t.footer.language;
+        }
+    });
+}
+
+function updatePhotoCredits() {
+    const t = languageData;
+    const photoCredits = document.querySelector('.photo-credits');
+    if (!photoCredits || !t.photoCredits) {
+        console.log('photoCredits update skipped:', {photoCredits: !!photoCredits, t_photoCredits: !!t.photoCredits});
+        return;
+    }
+
+    // 見出しを更新（リンク部分はそのまま）
+    const heading = photoCredits.querySelector('p');
+    if (heading) {
+        heading.innerHTML = t.photoCredits.title;
+    }
+
+    // リスト項目を更新
+    const items = photoCredits.querySelectorAll('li');
+    const itemKeys = ['heroBackground', 'matsushima', 'naruko', 'kesennuma', 'zao', 'zunda', 'sasakama', 'fukahire', 'harako', 'springCherry', 'summerTanabata', 'autumnNaruko', 'winterZao'];
+
+    items.forEach((item, idx) => {
+        const key = itemKeys[idx];
+        const translation = t.photoCredits.items[key];
+
+        if (key && translation) {
+            // li タグの内容を保持しながら、最初のテキストノードを置き換え
+            const originalHTML = item.innerHTML;
+            // EM ダッシュ「—」（U+2014）を検索（&mdash; ではなく実際の文字）
+            const dashIndex = originalHTML.indexOf('—');
+            if (dashIndex !== -1) {
+                const rest = originalHTML.substring(dashIndex);
+                item.innerHTML = `${translation} ${rest}`;
+            }
+        }
+    });
+}
+
+function updateContactForm() {
+    const t = languageData;
+    const modal = document.getElementById('contactModal');
+    if (modal) {
+        const title = modal.querySelector('h2');
+        const labels = modal.querySelectorAll('label');
+        const button = modal.querySelector('.submit-btn');
+
+        if (title) title.textContent = t.contact.title;
+        if (labels[0]) labels[0].textContent = t.contact.name;
+        if (labels[1]) labels[1].textContent = t.contact.email;
+        if (labels[2]) labels[2].textContent = t.contact.message;
+        if (button) button.textContent = t.contact.submit;
+    }
+}
+
 // モダンなスクロールアニメーション
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+    // 言語機能の初期化
+    await loadLanguages();
+
     // Intersection Observer for lazy animation
     const observerOptions = {
         threshold: 0.1,
@@ -88,7 +505,6 @@ document.addEventListener('DOMContentLoaded', () => {
     setupParallax();
     setupStickyNav();
     setupScrollEffects();
-    setupTextAnimation();
     setupSeasonTabs();
 });
 

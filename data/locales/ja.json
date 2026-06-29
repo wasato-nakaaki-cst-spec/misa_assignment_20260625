@@ -1,0 +1,165 @@
+{
+  "nav": {
+    "home": "ホーム",
+    "spots": "観光",
+    "gourmet": "グルメ",
+    "seasons": "季節",
+    "access": "アクセス",
+    "brand": "宮城県"
+  },
+  "hero": {
+    "title": "みちのく宮城",
+    "subtitle": "日本の心がここにあります。",
+    "description": "海、山、歴史が織りなす美しい風景。<br>宮城県があなたをお待ちしています。",
+    "cta": "探索を始める"
+  },
+  "overview": {
+    "title1": "伊達文化の息づく地",
+    "desc1": "仙台城跡から広がる、文化探訪の旅",
+    "title2": "豊かな自然",
+    "desc2": "日本三景・松島から鳴子峡まで、絶景が満載",
+    "title3": "美食の宝庫",
+    "desc3": "牛タン、ずんだなどの名物グルメ"
+  },
+  "stats": {
+    "visitors": "万人の年間来訪者",
+    "history": "年以上の歴史",
+    "hotsprings": "の温泉地"
+  },
+  "spots": {
+    "title": "観光",
+    "matsushima": {
+      "name": "松島",
+      "desc": "日本三景の一つ。260余りの島々が織りなす絶景。瑞巌寺、五大堂など文化財も豊富。"
+    },
+    "sendai": {
+      "name": "仙台城跡",
+      "desc": "伊達政宗が築城した仙台城。本丸からは仙台市街を一望できる展望台も。"
+    },
+    "shiogama": {
+      "name": "塩竈",
+      "desc": "全国屈指の志波彦神社・塩竈神社が鎮座する港町。新鮮な寿司と松島への玄関口として人気。"
+    },
+    "naruko": {
+      "name": "鳴子温泉",
+      "desc": "東北の温泉地。鳴子峡の紅葉も美しい。湯治場として古くから親しまれています。"
+    },
+    "kesennuma": {
+      "name": "気仙沼",
+      "desc": "太平洋に面した漁業の町。新鮮な海の幸が豊富。唐桑半島の景勝地も必見。"
+    },
+    "zao": {
+      "name": "蔵王",
+      "desc": "蔵王エコーライン、お釜の美しい火口湖。スキーと温泉の両立も可能。"
+    }
+  },
+  "gourmet": {
+    "title": "グルメ",
+    "gyutan": {
+      "name": "仙台牛タン",
+      "desc": "塩辛く焼いた牛タンは仙台の代表グルメ。厚切りの食感がたまりません。"
+    },
+    "zunda": {
+      "name": "ずんだ餅",
+      "desc": "枝豆をすりつぶして作る緑色のあんこ。甘さ控えめで、つい食べてしまいます。"
+    },
+    "kaki": {
+      "name": "牡蠣",
+      "desc": "松島湾・三陸の海で育つ濃厚な牡蠣。焼き牡蠣や蒸し牡蠣で旬の味を堪能できます。"
+    },
+    "sasakama": {
+      "name": "笹かまぼこ",
+      "desc": "仙台の郷土の味。竹の皮に包まれた笹かま。そのままでも、焼いても美味しい。"
+    },
+    "fukahire": {
+      "name": "フカヒレ",
+      "desc": "気仙沼は国内有数のフカヒレの産地。とろけるような食感のスープは絶品です。"
+    },
+    "harako": {
+      "name": "はらこ飯",
+      "desc": "亘理発祥の郷土料理。鮭の煮汁で炊いたご飯に、ほぐし身といくらをたっぷりと。"
+    }
+  },
+  "seasons": {
+    "title": "季節の見どころ",
+    "spring": "春",
+    "summer": "夏",
+    "autumn": "秋",
+    "winter": "冬",
+    "springPeriod": "3月～5月",
+    "springItems": ["白石川堤の一目千本桜", "仙台城跡から望む満開の桜", "榴岡公園のお花見"],
+    "summerPeriod": "6月～8月",
+    "summerItems": ["仙台七夕祭り", "海水浴場", "花火大会"],
+    "autumnPeriod": "9月～11月",
+    "autumnItems": ["鳴子峡の紅葉", "秋の味覚", "みちのくYOSAKOIまつり"],
+    "winterPeriod": "12月～2月",
+    "winterItems": ["蔵王のスキー場", "温泉で暖まる", "冬の絶景"]
+  },
+  "access": {
+    "title": "アクセス",
+    "lead": "仙台を中心に、東北各地へ繋がる旅の入口",
+    "airplane": {
+      "title": "✈️ 飛行機で",
+      "desc": "仙台国際空港へ",
+      "items": ["大阪伊丹から: 約1時間10分", "関西国際から: 約1時間30分", "福岡から: 約2時間"]
+    },
+    "shinkansen": {
+      "title": "🚄 新幹線で",
+      "desc": "仙台駅へ",
+      "items": ["東京から: 約1時間30分", "大阪から: 約4時間10分"]
+    },
+    "car": {
+      "title": "🚗 お車で",
+      "desc": "高速道路利用",
+      "items": ["東京から: 約5時間"]
+    }
+  },
+  "newsletter": {
+    "title": "宮城県の最新情報をお届け",
+    "desc": "観光情報、イベント、グルメ情報など最新ニュースをメールでお受け取りください",
+    "placeholder": "メールアドレスを入力",
+    "button": "登録する"
+  },
+  "footer": {
+    "tourism": "宮城県観光",
+    "official": "公式サイト",
+    "events": "イベント情報",
+    "support": "サポート",
+    "contact": "お問い合わせ",
+    "faq": "よくある質問",
+    "privacy": "プライバシー",
+    "follow": "フォロー",
+    "facebook": "Facebook",
+    "instagram": "Instagram",
+    "x": "X",
+    "language": "言語"
+  },
+  "contact": {
+    "title": "お問い合わせ",
+    "name": "お名前 *",
+    "email": "メールアドレス *",
+    "message": "メッセージ *",
+    "submit": "送信する"
+  },
+  "common": {
+    "details": "詳しく見る →"
+  },
+  "photoCredits": {
+    "title": "<p>写真クレジット（<a href=\"https://commons.wikimedia.org/\" target=\"_blank\" rel=\"noopener\">Wikimedia Commons</a>）:</p>",
+    "items": {
+      "heroBackground": "ヒーロー背景",
+      "matsushima": "松島",
+      "naruko": "鳴子峡",
+      "kesennuma": "気仙沼",
+      "zao": "蔵王",
+      "zunda": "ずんだ餅",
+      "sasakama": "笹かまぼこ",
+      "fukahire": "フカヒレ",
+      "harako": "はらこ飯",
+      "springCherry": "春・一目千本桜",
+      "summerTanabata": "夏・仙台七夕まつり",
+      "autumnNaruko": "秋・鳴子峡",
+      "winterZao": "冬・蔵王の樹氷"
+    }
+  }
+}

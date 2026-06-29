@@ -1,0 +1,165 @@
+{
+  "nav": {
+    "home": "홈",
+    "spots": "관광",
+    "gourmet": "그르메",
+    "seasons": "계절",
+    "access": "접근",
+    "brand": "미야기"
+  },
+  "hero": {
+    "title": "미야기 방문",
+    "subtitle": "일본의 심장이 여기 있습니다",
+    "description": "바다, 산, 역사가 만드는 아름다운 풍경.<br>미야기현이 당신을 기다리고 있습니다.",
+    "cta": "탐색 시작"
+  },
+  "overview": {
+    "title1": "다테 문화의 땅",
+    "desc1": "센다이 성터에서 시작되는 문화 여행",
+    "title2": "풍부한 자연",
+    "desc2": "일본 3대 경경 마쓰시마부터 나루코 협곡까지, 절경이 가득",
+    "title3": "미식의 보고",
+    "desc3": "소혀 구이, 즈다 떡 등 유명한 현지 음식"
+  },
+  "stats": {
+    "visitors": "만 명의 연간 방문객",
+    "history": "년 이상의 역사",
+    "hotsprings": "온천지"
+  },
+  "spots": {
+    "title": "관광",
+    "matsushima": {
+      "name": "마쓰시마",
+      "desc": "일본 3대 경경 중 하나. 260개 이상의 섬이 만드는 웅대한 경관. 즈이간지 절, 고다이도 등 문화유산이 풍부합니다."
+    },
+    "sendai": {
+      "name": "센다이 성터",
+      "desc": "다테 마사무네가 축성한 센다이 성. 본성에서는 센다이 시가지를 한눈에 볼 수 있습니다."
+    },
+    "shiogama": {
+      "name": "시오가마",
+      "desc": "시와히코 신사와 시오가마 신사가 위치한 항구 도시. 신선한 초밥과 마쓰시마 가는 길의 관문으로 유명합니다."
+    },
+    "naruko": {
+      "name": "나루코 온천",
+      "desc": "동북의 온천지. 나루코 협곡의 단풍이 아름답습니다. 옛날부터 온천 요양지로 사랑받고 있습니다."
+    },
+    "kesennuma": {
+      "name": "케센누마",
+      "desc": "태평양에 면한 어업 도시. 신선한 해산물이 풍부합니다. 가라쿠와 반도의 경관지도 반드시 봐야 합니다."
+    },
+    "zao": {
+      "name": "자오",
+      "desc": "자오 에코 라인, 아름다운 화산호 오카마. 스키와 온천을 동시에 즐길 수 있습니다."
+    }
+  },
+  "gourmet": {
+    "title": "그르메",
+    "gyutan": {
+      "name": "센다이 소혀 구이",
+      "desc": "염장 소혀 구이는 센다이의 대표 음식입니다. 두터운 식감이 일품입니다."
+    },
+    "zunda": {
+      "name": "즈다 떡",
+      "desc": "으깬 완두콩으로 만든 녹색 팥소. 적당한 단맛으로 계속 먹게 됩니다."
+    },
+    "kaki": {
+      "name": "굴",
+      "desc": "마쓰시마만과 산리쿠 바다에서 자란 진한 굴. 구워 먹거나 찐 굴로 계절의 맛을 즐길 수 있습니다."
+    },
+    "sasakama": {
+      "name": "사사 가마보코",
+      "desc": "센다이의 향토 음식. 대나무잎에 싸인 어묵. 그대로 먹어도 좋고 구워 먹어도 맛있습니다."
+    },
+    "fukahire": {
+      "name": "상어 지느러미",
+      "desc": "케센누마는 국내 최고의 상어 지느러미 산지입니다. 부드러운 식감의 수프는 일품입니다."
+    },
+    "harako": {
+      "name": "하라코 밥",
+      "desc": "와타리에서 시작된 향토 요리. 연어 국물에 지은 밥에 으깬 연어 살과 연어알을 듬뿍 얹었습니다."
+    }
+  },
+  "seasons": {
+    "title": "계절의 볼거리",
+    "spring": "봄",
+    "summer": "여름",
+    "autumn": "가을",
+    "winter": "겨울",
+    "springPeriod": "3월～5월",
+    "springItems": ["시로이시 강변의 천 그루 벚꽃", "센다이 성터에서 본 만개한 벚꽃", "유리오카 공원 벚꽃놀이"],
+    "summerPeriod": "6월～8월",
+    "summerItems": ["센다이 칠석 축제", "해수욕장", "불꽃 축제"],
+    "autumnPeriod": "9월～11월",
+    "autumnItems": ["나루코 협곡의 단풍", "가을 음식", "미치노쿠 YOSAKOI 축제"],
+    "winterPeriod": "12월～2월",
+    "winterItems": ["자오 스키장", "온천에서 따뜻해지기", "겨울 경관"]
+  },
+  "access": {
+    "title": "접근",
+    "lead": "센다이는 동북 각지로 이어지는 여행의 입구",
+    "airplane": {
+      "title": "✈️ 비행기로",
+      "desc": "센다이 국제공항으로",
+      "items": ["오사카 이타미에서: 약 1시간 10분", "간사이 국제에서: 약 1시간 30분", "후쿠오카에서: 약 2시간"]
+    },
+    "shinkansen": {
+      "title": "🚄 신칸센으로",
+      "desc": "센다이 역으로",
+      "items": ["도쿄에서: 약 1시간 30분", "오사카에서: 약 4시간 10분"]
+    },
+    "car": {
+      "title": "🚗 차로",
+      "desc": "고속도로 이용",
+      "items": ["도쿄에서: 약 5시간"]
+    }
+  },
+  "newsletter": {
+    "title": "미야기현 최신 정보를 받으세요",
+    "desc": "관광 정보, 행사, 그르메 정보 등 최신 소식을 이메일로 받으세요",
+    "placeholder": "이메일 주소를 입력하세요",
+    "button": "구독하기"
+  },
+  "footer": {
+    "tourism": "미야기현 관광",
+    "official": "공식 사이트",
+    "events": "행사 정보",
+    "support": "지원",
+    "contact": "문의",
+    "faq": "자주 묻는 질문",
+    "privacy": "개인정보보호",
+    "follow": "팔로우",
+    "facebook": "Facebook",
+    "instagram": "Instagram",
+    "x": "X",
+    "language": "언어"
+  },
+  "contact": {
+    "title": "문의",
+    "name": "이름 *",
+    "email": "이메일 주소 *",
+    "message": "메시지 *",
+    "submit": "보내기"
+  },
+  "common": {
+    "details": "더 보기 →"
+  },
+  "photoCredits": {
+    "title": "<p>사진 크레딧（<a href=\"https://commons.wikimedia.org/\" target=\"_blank\" rel=\"noopener\">Wikimedia Commons</a>）:</p>",
+    "items": {
+      "heroBackground": "영웅 배경",
+      "matsushima": "마쓰시마",
+      "naruko": "나루코 협곡",
+      "kesennuma": "케센누마",
+      "zao": "자오",
+      "zunda": "즈다 떡",
+      "sasakama": "사사 가마보코",
+      "fukahire": "상어 지느러미",
+      "harako": "하라코 밥",
+      "springCherry": "봄: 시로이시 강변 천 그루 벚꽃",
+      "summerTanabata": "여름: 센다이 칠석 축제",
+      "autumnNaruko": "가을: 나루코 협곡",
+      "winterZao": "겨울: 자오 수빙"
+    }
+  }
+}

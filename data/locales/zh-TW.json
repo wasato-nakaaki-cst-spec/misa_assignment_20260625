@@ -1,0 +1,165 @@
+{
+  "nav": {
+    "home": "首頁",
+    "spots": "景點",
+    "gourmet": "美食",
+    "seasons": "季節",
+    "access": "交通",
+    "brand": "宮城縣"
+  },
+  "hero": {
+    "title": "訪問宮城",
+    "subtitle": "日本的心在這裡",
+    "description": "由海洋、群山和歷史編織而成的美麗風景。<br>宮城縣期待您的到來。",
+    "cta": "開始探索"
+  },
+  "overview": {
+    "title1": "伊達文化之地",
+    "desc1": "從仙台城遺址開始的文化探尋之旅",
+    "title2": "豐富的自然",
+    "desc2": "從日本三大名景松島到鳴子峽，美景無處不在",
+    "title3": "美食的寶庫",
+    "desc3": "包括牛舌、毛豆糕等著名美食"
+  },
+  "stats": {
+    "visitors": "萬年度訪客數",
+    "history": "年的歷史",
+    "hotsprings": "處溫泉地"
+  },
+  "spots": {
+    "title": "景點",
+    "matsushima": {
+      "name": "松島",
+      "desc": "日本三大名景之一。超過260個島嶼組成的壯麗景觀。擁有豐富的文化遺產，如瑞岩寺和五大堂。"
+    },
+    "sendai": {
+      "name": "仙台城遺址",
+      "desc": "由伊達政宗修建的仙台城。從本丸可以一覽仙台市景。"
+    },
+    "shiogama": {
+      "name": "鹽竈",
+      "desc": "供奉著志波彥神社和鹽竈神社的港口城鎮。以新鮮壽司和作為松島門戶而聞名。"
+    },
+    "naruko": {
+      "name": "鳴子溫泉",
+      "desc": "東北的溫泉地。鳴子峽的紅葉美麗動人。自古以來作為溫泉療養地而受歡迎。"
+    },
+    "kesennuma": {
+      "name": "氣仙沼",
+      "desc": "面臨太平洋的漁業城鎮。擁有豐富的新鮮海產品。唐桑半島的風景名勝不容錯過。"
+    },
+    "zao": {
+      "name": "藏王",
+      "desc": "藏王迴音線和釜，一個美麗的火山口湖。可以同時享受滑雪和溫泉。"
+    }
+  },
+  "gourmet": {
+    "title": "美食",
+    "gyutan": {
+      "name": "仙台牛舌",
+      "desc": "鹽烤牛舌是仙台的代表美食。厚切的口感令人難以抗拒。"
+    },
+    "zunda": {
+      "name": "毛豆糕",
+      "desc": "用搗碎的毛豆製成的綠色豆沙。甜度適中，令人欲罷不能。"
+    },
+    "kaki": {
+      "name": "牡蠣",
+      "desc": "來自松島灣和三陸海域的濃郁牡蠣。烤牡蠣或蒸牡蠣讓您品嚐季節的味道。"
+    },
+    "sasakama": {
+      "name": "竹葉魚糕",
+      "desc": "仙台的鄉土美食。用竹葉包裹的魚糕。生吃或烤製都很美味。"
+    },
+    "fukahire": {
+      "name": "魚翅",
+      "desc": "氣仙沼是日本主要的魚翅產地。柔滑的魚翅湯是絕品。"
+    },
+    "harako": {
+      "name": "魚子飯",
+      "desc": "源自亙理的鄉土料理。用鮭魚湯汁煮的米飯，配上鮭魚肉和大量魚子。"
+    }
+  },
+  "seasons": {
+    "title": "季節亮點",
+    "spring": "春季",
+    "summer": "夏季",
+    "autumn": "秋季",
+    "winter": "冬季",
+    "springPeriod": "3月～5月",
+    "springItems": ["白石川堤的千櫻", "仙台城遺址櫻花盛開", "榴岡公園賞櫻"],
+    "summerPeriod": "6月～8月",
+    "summerItems": ["仙台七夕節", "海濱浴場", "煙火大會"],
+    "autumnPeriod": "9月～11月",
+    "autumnItems": ["鳴子峽的紅葉", "秋季美食", "陸奧YOSAKOI節"],
+    "winterPeriod": "12月～2月",
+    "winterItems": ["藏王滑雪場", "溫泉取暖", "冬季美景"]
+  },
+  "access": {
+    "title": "交通",
+    "lead": "仙台是連接東北各地的交通樞紐",
+    "airplane": {
+      "title": "✈️ 乘飛機",
+      "desc": "飛往仙台國際機場",
+      "items": ["從大阪伊丹：約1小時10分鐘", "從關西國際：約1小時30分鐘", "從福岡：約2小時"]
+    },
+    "shinkansen": {
+      "title": "🚄 乘新幹線",
+      "desc": "前往仙台站",
+      "items": ["從東京：約1小時30分鐘", "從大阪：約4小時10分鐘"]
+    },
+    "car": {
+      "title": "🚗 自駕",
+      "desc": "高速公路",
+      "items": ["從東京：約5小時"]
+    }
+  },
+  "newsletter": {
+    "title": "獲取最新宮城縣信息",
+    "desc": "通過電子郵件接收旅遊信息、活動和美食最新動態",
+    "placeholder": "請輸入電子郵件地址",
+    "button": "訂閱"
+  },
+  "footer": {
+    "tourism": "宮城縣旅遊",
+    "official": "官方網站",
+    "events": "活動信息",
+    "support": "支持",
+    "contact": "聯繫我們",
+    "faq": "常見問題",
+    "privacy": "隱私",
+    "follow": "關注",
+    "facebook": "Facebook",
+    "instagram": "Instagram",
+    "x": "X",
+    "language": "語言"
+  },
+  "contact": {
+    "title": "聯繫我們",
+    "name": "姓名 *",
+    "email": "電子郵件 *",
+    "message": "留言 *",
+    "submit": "發送"
+  },
+  "common": {
+    "details": "瞭解更多 →"
+  },
+  "photoCredits": {
+    "title": "<p>圖片來源（<a href=\"https://commons.wikimedia.org/\" target=\"_blank\" rel=\"noopener\">Wikimedia Commons</a>）:</p>",
+    "items": {
+      "heroBackground": "英雄背景",
+      "matsushima": "松島",
+      "naruko": "鳴子峽",
+      "kesennuma": "氣仙沼",
+      "zao": "藏王",
+      "zunda": "毛豆糕",
+      "sasakama": "竹葉魚糕",
+      "fukahire": "魚翅",
+      "harako": "魚子飯",
+      "springCherry": "春季：白石川堤千櫻",
+      "summerTanabata": "夏季：仙台七夕節",
+      "autumnNaruko": "秋季：鳴子峽",
+      "winterZao": "冬季：藏王樹冰"
+    }
+  }
+}

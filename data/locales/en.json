@@ -1,0 +1,165 @@
+{
+  "nav": {
+    "home": "Home",
+    "spots": "Attractions",
+    "gourmet": "Gourmet",
+    "seasons": "Seasons",
+    "access": "Access",
+    "brand": "Miyagi"
+  },
+  "hero": {
+    "title": "Visit Miyagi",
+    "subtitle": "The Heart of Japan is Here",
+    "description": "Beautiful landscapes woven by the sea, mountains, and history.<br>Miyagi Prefecture awaits you.",
+    "cta": "Start Exploring"
+  },
+  "overview": {
+    "title1": "Land of Date Culture",
+    "desc1": "A journey of cultural exploration from Sendai Castle Ruins",
+    "title2": "Rich Natural Beauty",
+    "desc2": "Spectacular views from Matsushima, one of Japan's Three Great Scenic Sites, to Naruko Gorge",
+    "title3": "Gourmet Paradise",
+    "desc3": "Famous local specialties including gyutan and zunda mochi"
+  },
+  "stats": {
+    "visitors": "million annual visitors",
+    "history": "years of history",
+    "hotsprings": "hot spring locations"
+  },
+  "spots": {
+    "title": "Attractions",
+    "matsushima": {
+      "name": "Matsushima",
+      "desc": "One of Japan's Three Great Scenic Sites. Spectacular scenery created by over 260 islands. Rich in cultural heritage including Zuiganji Temple and Godaido."
+    },
+    "sendai": {
+      "name": "Sendai Castle Ruins",
+      "desc": "Sendai Castle built by Date Masamune. The observation deck at the main garrison offers a panoramic view of Sendai city."
+    },
+    "shiogama": {
+      "name": "Shiogama",
+      "desc": "A port town with the renowned Shiwahiko Shrine and Shiogama Shrine. Famous for fresh sushi and as a gateway to Matsushima."
+    },
+    "naruko": {
+      "name": "Naruko Hot Spring",
+      "desc": "A hot spring resort in Tohoku. Beautiful autumn foliage at Naruko Gorge. Cherished as a healing destination since ancient times."
+    },
+    "kesennuma": {
+      "name": "Kesennuma",
+      "desc": "A fishing town facing the Pacific Ocean. Abundant fresh seafood. The scenic beauty of the Karakuwa Peninsula is a must-see."
+    },
+    "zao": {
+      "name": "Zao",
+      "desc": "Zao Echo Line and Okama, a beautiful volcanic crater lake. Enjoy both skiing and hot springs."
+    }
+  },
+  "gourmet": {
+    "title": "Gourmet",
+    "gyutan": {
+      "name": "Sendai Gyutan (Beef Tongue)",
+      "desc": "Salted and grilled beef tongue is Sendai's representative gourmet. The thick slices are irresistible."
+    },
+    "zunda": {
+      "name": "Zunda Mochi",
+      "desc": "Green sweet paste made from crushed edamame. Moderately sweet and addictively delicious."
+    },
+    "kaki": {
+      "name": "Oysters",
+      "desc": "Rich oysters from Matsushima Bay and Sanriku. Grilled or steamed oysters let you taste the season."
+    },
+    "sasakama": {
+      "name": "Sasa Kamaboko",
+      "desc": "Sendai's local specialty. Kamaboko wrapped in bamboo leaves. Delicious both raw and grilled."
+    },
+    "fukahire": {
+      "name": "Shark Fin",
+      "desc": "Kesennuma is one of Japan's leading shark fin producers. The silky-smooth soup is exquisite."
+    },
+    "harako": {
+      "name": "Harako Rice",
+      "desc": "Local cuisine from Watari. Rice cooked in salmon broth topped with shredded salmon and plenty of salmon roe."
+    }
+  },
+  "seasons": {
+    "title": "Seasonal Highlights",
+    "spring": "Spring",
+    "summer": "Summer",
+    "autumn": "Autumn",
+    "winter": "Winter",
+    "springPeriod": "March - May",
+    "springItems": ["Thousand Cherry Blossoms at Shiroishi River Bank", "Full-blooming cherry blossoms from Sendai Castle Ruins", "Cherry blossom viewing at Maruoka Park"],
+    "summerPeriod": "June - August",
+    "summerItems": ["Sendai Tanabata Festival", "Swimming beaches", "Fireworks shows"],
+    "autumnPeriod": "September - November",
+    "autumnItems": ["Autumn foliage at Naruko Gorge", "Autumn flavors", "Michinoku YOSAKOI Festival"],
+    "winterPeriod": "December - February",
+    "winterItems": ["Zao Ski Resorts", "Warm up in hot springs", "Winter scenery"]
+  },
+  "access": {
+    "title": "Access",
+    "lead": "Sendai is the gateway to Northeast Japan",
+    "airplane": {
+      "title": "✈️ By Air",
+      "desc": "To Sendai International Airport",
+      "items": ["From Osaka Itami: Approx. 1 hour 10 minutes", "From Kansai International: Approx. 1 hour 30 minutes", "From Fukuoka: Approx. 2 hours"]
+    },
+    "shinkansen": {
+      "title": "🚄 By Shinkansen",
+      "desc": "To Sendai Station",
+      "items": ["From Tokyo: Approx. 1 hour 30 minutes", "From Osaka: Approx. 4 hours 10 minutes"]
+    },
+    "car": {
+      "title": "🚗 By Car",
+      "desc": "Expressway",
+      "items": ["From Tokyo: Approx. 5 hours"]
+    }
+  },
+  "newsletter": {
+    "title": "Get Latest Miyagi Information",
+    "desc": "Receive the latest news on tourism, events, and gourmet via email",
+    "placeholder": "Enter your email address",
+    "button": "Subscribe"
+  },
+  "footer": {
+    "tourism": "Miyagi Tourism",
+    "official": "Official Website",
+    "events": "Events",
+    "support": "Support",
+    "contact": "Contact",
+    "faq": "FAQ",
+    "privacy": "Privacy",
+    "follow": "Follow",
+    "facebook": "Facebook",
+    "instagram": "Instagram",
+    "x": "X",
+    "language": "Language"
+  },
+  "contact": {
+    "title": "Contact",
+    "name": "Name *",
+    "email": "Email Address *",
+    "message": "Message *",
+    "submit": "Send"
+  },
+  "common": {
+    "details": "Read more →"
+  },
+  "photoCredits": {
+    "title": "<p>Photo Credits (via <a href=\"https://commons.wikimedia.org/\" target=\"_blank\" rel=\"noopener\">Wikimedia Commons</a>):</p>",
+    "items": {
+      "heroBackground": "Hero Background",
+      "matsushima": "Matsushima",
+      "naruko": "Naruko Gorge",
+      "kesennuma": "Kesennuma",
+      "zao": "Zao",
+      "zunda": "Zunda Mochi",
+      "sasakama": "Sasa Kamaboko",
+      "fukahire": "Shark Fin",
+      "harako": "Harako Rice",
+      "springCherry": "Spring: Thousand Cherry Blossoms",
+      "summerTanabata": "Summer: Sendai Tanabata Festival",
+      "autumnNaruko": "Autumn: Naruko Gorge",
+      "winterZao": "Winter: Zao Frost"
+    }
+  }
+}
