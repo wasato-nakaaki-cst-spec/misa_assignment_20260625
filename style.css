@@ -720,6 +720,16 @@ body.nav-closed {
     background: linear-gradient(135deg, rgba(88, 204, 242, 0.08) 0%, rgba(178, 235, 242, 0.08) 100%);
 }
 
+.access-lead {
+    max-width: 640px;
+    margin: -0.75rem auto 2.5rem;
+    color: var(--text-light);
+    text-align: center;
+    font-size: 1.05rem;
+    font-weight: 500;
+    line-height: 1.8;
+}
+
 .access-grid {
     max-width: 1200px;
     margin: 0 auto;
@@ -778,17 +788,8 @@ body.nav-closed {
     padding: 0.5rem 0;
     color: var(--text-light);
     font-size: 0.95rem;
-    position: relative;
-    padding-left: 1.5rem;
 }
 
-.access-card li::before {
-    content: '→';
-    position: absolute;
-    left: 0;
-    color: var(--secondary-color);
-    font-weight: bold;
-}
 
 /* ニュースレターセクション */
 .newsletter {
