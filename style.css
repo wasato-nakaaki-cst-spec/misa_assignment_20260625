@@ -163,6 +163,7 @@ body.nav-closed {
         font-weight: 500;
         text-align: left;
         cursor: pointer;
+        font-family: inherit;
         font-size: 1rem;
         line-height: 1.6;
         border-bottom: 1px solid rgba(0, 0, 0, 0.06);
