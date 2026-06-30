@@ -125,7 +125,7 @@ body.nav-closed {
 }
 
 /* 狭めのPCでは、右上固定の開閉ボタンと最後のリンクが重ならないよう余白を確保 */
-@media (min-width: 769px) and (max-width: 1320px) {
+@media (min-width: 961px) and (max-width: 1320px) {
     .nav-container {
         padding-right: 6.75rem;
     }
@@ -141,7 +141,7 @@ body.nav-closed {
 }
 
 /* モバイルではメニューバーの言語セレクターを非表示 */
-@media (max-width: 768px) {
+@media (max-width: 960px) {
     .nav-language-selector {
         display: none;
     }
@@ -1325,7 +1325,7 @@ body.nav-closed {
 }
 
 /* レスポンシブ */
-@media (max-width: 768px) {
+@media (max-width: 960px) {
     /* コンパクトなナビバー（高さを抑える） */
     body {
         padding-top: 60px;

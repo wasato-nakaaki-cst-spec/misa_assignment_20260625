@@ -884,7 +884,7 @@ function setupStickyNav() {
     if (!navbar || !navToggle) return;
 
     const icon = navToggle.querySelector('.nav-toggle-icon');
-    const isMobile = () => window.matchMedia('(max-width: 768px)').matches;
+    const isMobile = () => window.matchMedia('(max-width: 960px)').matches;
 
     // アイコンを現在の状態に合わせて更新
     const syncIcon = () => {
@@ -942,7 +942,7 @@ function setupStickyNav() {
 function setupScrollEffects() {
     window.addEventListener('scroll', () => {
         // スマホではアイコンを本文下に通常配置するため視差は無効
-        if (window.matchMedia('(max-width: 768px)').matches) return;
+        if (window.matchMedia('(max-width: 960px)').matches) return;
 
         const scrolled = window.pageYOffset;
 
