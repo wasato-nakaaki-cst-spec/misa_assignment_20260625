@@ -159,6 +159,9 @@
     "x": "X",
     "language": "語言"
   },
+  "language": {
+    "title": "選擇語言"
+  },
   "contact": {
     "title": "聯繫我們",
     "name": "姓名 *",

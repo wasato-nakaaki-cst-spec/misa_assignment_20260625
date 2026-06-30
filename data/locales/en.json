@@ -159,6 +159,9 @@
     "x": "X",
     "language": "Language"
   },
+  "language": {
+    "title": "Select Language"
+  },
   "contact": {
     "title": "Contact",
     "name": "Name *",

@@ -141,6 +141,9 @@
     "message": "メッセージ *",
     "submit": "送信する"
   },
+  "language": {
+    "title": "言語を選択"
+  },
   "common": {
     "details": "詳しく見る →"
   },
