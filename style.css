@@ -1386,7 +1386,9 @@ body.nav-closed {
         max-height: 600px;
         /* navbar と nav-container のサブピクセル差による隙間を確実に埋める */
         margin-top: -1px;
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        /* 負の spread で影を下方向だけに収め、上側へのにじみ（線）を防ぐ */
+        box-shadow: 0 12px 16px -8px rgba(0, 0, 0, 0.15);
+        border-top: 1px solid rgba(0, 0, 0, 0.06);
         border-bottom: 3px solid var(--primary-color);
     }
 
