@@ -921,11 +921,14 @@ function setupStickyNav() {
     });
 
     // スマホ：メニュー外をタップしたらメニューを閉じる
+    const languageModal = document.getElementById('languageModal');
     document.addEventListener('click', (e) => {
         if (!isMobile()) return;
         if (!navbar.classList.contains('nav-open')) return;
         // ナビバー内・トグルボタンのクリックは除外
         if (navbar.contains(e.target) || navToggle.contains(e.target)) return;
+        // 言語選択モーダル内のクリックは除外（メニューを開いたままにする）
+        if (languageModal && languageModal.contains(e.target)) return;
         navbar.classList.remove('nav-open');
         syncIcon();
     });

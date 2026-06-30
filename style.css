@@ -1332,18 +1332,12 @@ body.nav-closed {
     }
 
     /* スマホでは不透明な白＋細い境界線（灰色の影スペースを解消） */
-    /* body の padding-top(60px) と高さを揃え、下端の隙間（#fafafa）を埋める */
+    /* backdrop-filter はスマホでは不要かつ描画不具合の原因になるため無効化 */
     .navbar {
         background: #fff;
         box-shadow: none;
+        backdrop-filter: none;
         border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-        min-height: 60px;
-        display: flex;
-        align-items: center;
-    }
-
-    .nav-container {
-        width: 100%;
     }
 
     /* メニューを開いているときはロゴ下の境界線を消す（白い線を解消） */
@@ -1351,8 +1345,11 @@ body.nav-closed {
         border-bottom: none;
     }
 
+    /* パディングで navbar の高さを body の padding-top(60px) に合わせ、
+       閉じたときの下端の隙間（#fafafa）を解消 */
     .nav-container {
-        padding: 0.6rem 1rem;
+        width: 100%;
+        padding: 0.75rem 1rem;
     }
 
     .logo {
@@ -1384,6 +1381,8 @@ body.nav-closed {
 
     .navbar.nav-open .nav-links {
         max-height: 600px;
+        /* navbar と nav-container のサブピクセル差による隙間を確実に埋める */
+        margin-top: -1px;
         box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
         border-bottom: 3px solid var(--primary-color);
     }
