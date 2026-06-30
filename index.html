@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>宮城県観光PR - みちのく宮城へようこそ</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='75' font-size='75'>🌸</text></svg>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
@@ -18,6 +19,11 @@
                 <li><a href="#gourmet" class="nav-link">グルメ</a></li>
                 <li><a href="#seasons" class="nav-link">季節</a></li>
                 <li><a href="#access" class="nav-link">アクセス</a></li>
+                <li class="nav-language-mobile">
+                    <button class="nav-mobile-lang-btn" id="navMobileLangBtn">
+                        <span id="navMobileLangLabel">言語</span>
+                    </button>
+                </li>
             </ul>
             <div class="nav-language-selector">
                 <button class="nav-lang-btn" id="navLangBtn"><i class="fa-solid fa-globe"></i> <span id="navLangLabel">言語</span></button>
@@ -362,6 +368,21 @@
             </div>
         </div>
     </footer>
+
+    <!-- 言語選択モーダル -->
+    <div class="language-modal" id="languageModal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <h2 id="languageModalTitle">言語を選択</h2>
+            <div class="language-options-modal">
+                <button class="language-modal-option" data-lang="ja">日本語</button>
+                <button class="language-modal-option" data-lang="en">English</button>
+                <button class="language-modal-option" data-lang="zh-CN">简体中文</button>
+                <button class="language-modal-option" data-lang="zh-TW">繁體中文</button>
+                <button class="language-modal-option" data-lang="ko">한국어</button>
+            </div>
+        </div>
+    </div>
 
     <!-- お問い合わせモーダル -->
     <div class="contact-modal" id="contactModal">

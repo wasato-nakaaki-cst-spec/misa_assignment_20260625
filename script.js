@@ -217,13 +217,43 @@ function closeNavLanguageMenu() {
 
 // モバイル用言語セレクターを初期化
 function initMobileLanguageSelector() {
-    const mobileOptions = document.querySelectorAll('.nav-mobile-lang-option');
-    if (!mobileOptions.length) return;
+    const mobileLangBtn = document.getElementById('navMobileLangBtn');
+    const languageModal = document.getElementById('languageModal');
+    const modalCloseBtn = languageModal?.querySelector('.modal-close');
+    const modalOptions = document.querySelectorAll('.language-modal-option');
 
-    mobileOptions.forEach(option => {
+    if (!mobileLangBtn || !languageModal || !modalOptions.length) return;
+
+    // ボタンクリックでモーダルを開く
+    mobileLangBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        languageModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    });
+
+    // モーダルクローズボタン
+    if (modalCloseBtn) {
+        modalCloseBtn.addEventListener('click', () => {
+            languageModal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        });
+    }
+
+    // モーダル外クリックでクローズ
+    languageModal.addEventListener('click', (e) => {
+        if (e.target === languageModal) {
+            languageModal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+    });
+
+    // 言語オプションをクリック
+    modalOptions.forEach(option => {
         option.addEventListener('click', async () => {
             const lang = option.dataset.lang;
             await switchLanguage(lang);
+            languageModal.classList.remove('active');
+            document.body.style.overflow = 'auto';
         });
     });
 
@@ -233,6 +263,10 @@ function initMobileLanguageSelector() {
 // モバイル用言語ボタンの状態を更新
 function updateMobileLanguageButtons() {
     document.querySelectorAll('.nav-mobile-lang-option').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.lang === currentLanguage);
+    });
+    // モーダル内の言語ボタンも更新
+    document.querySelectorAll('.language-modal-option').forEach(btn => {
         btn.classList.toggle('active', btn.dataset.lang === currentLanguage);
     });
 }
@@ -263,6 +297,12 @@ async function loadStoredLanguage() {
 function updatePageContent() {
     const t = languageData;
     if (!t) return;
+
+    // 言語選択モーダルのタイトルを更新
+    const languageModalTitle = document.getElementById('languageModalTitle');
+    if (languageModalTitle && t.language && t.language.title) {
+        languageModalTitle.textContent = t.language.title;
+    }
 
     // ナビゲーション
     const logo = document.querySelector('a.logo');
@@ -878,6 +918,16 @@ function setupStickyNav() {
                 syncIcon();
             }
         });
+    });
+
+    // スマホ：メニュー外をタップしたらメニューを閉じる
+    document.addEventListener('click', (e) => {
+        if (!isMobile()) return;
+        if (!navbar.classList.contains('nav-open')) return;
+        // ナビバー内・トグルボタンのクリックは除外
+        if (navbar.contains(e.target) || navToggle.contains(e.target)) return;
+        navbar.classList.remove('nav-open');
+        syncIcon();
     });
 
     // ブレークポイントをまたいだ時に状態をリセット
