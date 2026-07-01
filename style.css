@@ -39,6 +39,18 @@ body.nav-closed {
     padding-top: 0;
 }
 
+/* スクロール進捗バー */
+.scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 3px;
+    background: linear-gradient(to right, #FF6B9D, #FFB6D9);
+    z-index: 1002;
+    transition: width 0.1s ease-out;
+}
+
 /* ナビゲーション */
 .navbar {
     position: fixed;

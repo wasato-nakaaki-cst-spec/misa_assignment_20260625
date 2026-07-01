@@ -630,6 +630,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     setupParallax();
     setupStickyNav();
     setupScrollEffects();
+    setupScrollProgress();
     setupSeasonTabs();
 });
 
@@ -939,6 +940,22 @@ function setupStickyNav() {
         document.body.classList.remove('nav-closed');
         syncIcon();
     });
+}
+
+// スクロール進捗バー
+function setupScrollProgress() {
+    const bar = document.getElementById('scrollProgress');
+    if (!bar) return;
+
+    const updateProgress = () => {
+        const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const progress = scrollHeight > 0 ? (window.scrollY / scrollHeight) * 100 : 0;
+        bar.style.width = progress + '%';
+    };
+
+    window.addEventListener('scroll', updateProgress, { passive: true });
+    window.addEventListener('resize', updateProgress);
+    updateProgress();
 }
 
 // スクロールエフェクト
