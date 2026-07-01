@@ -349,6 +349,7 @@ function updatePageContent() {
     updateSeasonCards();
     updateAccessCards();
     updateNewsletter();
+    updateSocialShare();
     updateFooter();
     updateContactForm();
     updatePhotoCredits();
@@ -509,6 +510,15 @@ function updateNewsletter() {
         if (p) p.textContent = t.newsletter.desc;
         if (input) input.placeholder = t.newsletter.placeholder;
         if (button) button.textContent = t.newsletter.button;
+    }
+}
+
+function updateSocialShare() {
+    const t = languageData;
+    const section = document.querySelector('.social-share');
+    if (section) {
+        const h2 = section.querySelector('h2');
+        if (h2) h2.textContent = t.socialShare.title;
     }
 }
 

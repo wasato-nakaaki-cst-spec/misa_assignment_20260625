@@ -120,6 +120,9 @@
     "placeholder": "이메일 주소를 입력해주세요",
     "button": "구독하기"
   },
+  "socialShare": {
+    "title": "이 매력을 공유하세요"
+  },
   "footer": {
     "tourism": "미야기현 관광",
     "official": "공식 웹사이트",

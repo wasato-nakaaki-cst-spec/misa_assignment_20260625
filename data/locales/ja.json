@@ -120,6 +120,9 @@
     "placeholder": "メールアドレスを入力",
     "button": "登録する"
   },
+  "socialShare": {
+    "title": "この魅力をシェアしよう"
+  },
   "footer": {
     "tourism": "宮城県観光",
     "official": "公式サイト",

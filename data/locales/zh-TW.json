@@ -145,6 +145,9 @@
     "placeholder": "請輸入電子郵件地址",
     "button": "訂閱"
   },
+  "socialShare": {
+    "title": "分享這份魅力"
+  },
   "footer": {
     "tourism": "宮城縣旅遊",
     "official": "官方網站",
