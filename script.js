@@ -952,16 +952,24 @@ function setupStickyNav() {
     });
 }
 
-// スクロール進捗バー
+// スクロール進捗バー ＆ トップへ戻るボタン
 function setupScrollProgress() {
     const bar = document.getElementById('scrollProgress');
-    if (!bar) return;
+    const backToTop = document.getElementById('backToTop');
+    if (!bar && !backToTop) return;
 
     const updateProgress = () => {
         const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
         const progress = scrollHeight > 0 ? (window.scrollY / scrollHeight) * 100 : 0;
-        bar.style.width = progress + '%';
+        if (bar) bar.style.width = progress + '%';
+        if (backToTop) backToTop.classList.toggle('show', window.scrollY > 400);
     };
+
+    if (backToTop) {
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
 
     window.addEventListener('scroll', updateProgress, { passive: true });
     window.addEventListener('resize', updateProgress);
