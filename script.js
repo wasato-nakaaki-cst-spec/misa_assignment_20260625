@@ -776,7 +776,7 @@ function updateActiveNavLink() {
 // モーダル機能
 function setupModal() {
     const modal = document.getElementById('contactModal');
-    const closeBtn = document.querySelector('.modal-close');
+    const closeBtn = modal?.querySelector('.modal-close');
     const contactLink = document.querySelector('a[href="#contact"]');
 
     if (contactLink) {
