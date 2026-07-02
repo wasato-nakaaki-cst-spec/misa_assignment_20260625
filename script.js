@@ -657,6 +657,15 @@ function setupFAQ() {
         const answer = item.querySelector('.faq-answer');
         answer.style.maxHeight = willOpen ? answer.scrollHeight + 'px' : null;
     });
+
+    // リスト外をクリック（タップ）したら、開いている質問を閉じる
+    document.addEventListener('click', (e) => {
+        if (list.contains(e.target)) return;
+        list.querySelectorAll('.faq-item.open').forEach(openItem => {
+            openItem.classList.remove('open');
+            openItem.querySelector('.faq-answer').style.maxHeight = null;
+        });
+    });
 }
 
 // 季節タブ切り替え
