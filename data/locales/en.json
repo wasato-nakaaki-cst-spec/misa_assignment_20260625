@@ -5,6 +5,7 @@
     "gourmet": "Local Cuisine",
     "seasons": "Seasons",
     "access": "Access",
+    "faq": "FAQ",
     "brand": "Miyagi"
   },
   "hero": {
@@ -145,6 +146,31 @@
     "placeholder": "Enter your email address",
     "button": "Subscribe"
   },
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "items": [
+      {
+        "q": "When is the best season to visit?",
+        "a": "Every season has its charm: cherry blossoms in spring (April), the Tanabata Festival in summer (August), autumn foliage (October–November), and snow-covered trees in winter (January–February) are especially popular."
+      },
+      {
+        "q": "How do I get there from Tokyo?",
+        "a": "The Tohoku Shinkansen connects Tokyo Station to Sendai Station in about 1 hour 30 minutes. By air, Sendai International Airport links to cities across Japan."
+      },
+      {
+        "q": "What is the climate like, and what should I wear?",
+        "a": "Miyagi has four distinct seasons. Summers are slightly cooler than the Tokyo area. Urban areas like Sendai see little snowfall in winter, but warm clothing is essential when visiting mountainous areas such as Mt. Zao or Naruko."
+      },
+      {
+        "q": "What foods shouldn't I miss?",
+        "a": "Sendai beef tongue (gyutan), zunda mochi, Sanriku oysters, and sasa-kamaboko are classics. Don't miss Kesennuma's shark fin and harako-meshi as well."
+      },
+      {
+        "q": "How many days do I need for the main spots?",
+        "a": "One to two days is enough for Sendai and Matsushima; allow two to three days if you'd like to venture out to Naruko Onsen or Mt. Zao."
+      }
+    ]
+  },
   "socialShare": {
     "title": "Share the Love"
   },
@@ -154,7 +180,6 @@
     "events": "Events",
     "support": "Support",
     "contact": "Contact",
-    "faq": "FAQ",
     "privacy": "Privacy",
     "follow": "Follow",
     "facebook": "Facebook",

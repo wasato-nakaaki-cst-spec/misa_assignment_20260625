@@ -348,6 +348,7 @@ function updatePageContent() {
     updateGourmetCards();
     updateSeasonCards();
     updateAccessCards();
+    updateFAQ();
     updateNewsletter();
     updateSocialShare();
     updateFooter();
@@ -363,7 +364,8 @@ function updateNavLinks() {
         '#spots': t.nav.spots,
         '#gourmet': t.nav.gourmet,
         '#seasons': t.nav.seasons,
-        '#access': t.nav.access
+        '#access': t.nav.access,
+        '#faq': t.nav.faq
     };
 
     navLinks.forEach(link => {
@@ -513,6 +515,27 @@ function updateNewsletter() {
     }
 }
 
+function updateFAQ() {
+    const t = languageData;
+    if (!t.faq) return;
+
+    const title = document.querySelector('#faq .section-title');
+    if (title) title.textContent = t.faq.title;
+
+    const list = document.getElementById('faqList');
+    if (!list || !Array.isArray(t.faq.items)) return;
+
+    list.innerHTML = t.faq.items.map(item => `
+        <div class="faq-item">
+            <button class="faq-question">
+                <span>${item.q}</span>
+                <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer"><p>${item.a}</p></div>
+        </div>
+    `).join('');
+}
+
 function updateSocialShare() {
     const t = languageData;
     const section = document.querySelector('.social-share');
@@ -537,8 +560,7 @@ function updateFooter() {
         } else if (idx === 1) {
             if (h4) h4.textContent = t.footer.support;
             links[0].textContent = t.footer.contact;
-            links[1].textContent = t.footer.faq;
-            links[2].textContent = t.footer.privacy;
+            links[1].textContent = t.footer.privacy;
         } else if (idx === 2) {
             if (h4) h4.textContent = t.footer.follow;
             links[0].textContent = t.footer.facebook;
@@ -642,7 +664,35 @@ document.addEventListener('DOMContentLoaded', async () => {
     setupScrollEffects();
     setupScrollProgress();
     setupSeasonTabs();
+    setupFAQ();
 });
+
+// よくある質問（アコーディオン開閉）
+function setupFAQ() {
+    const list = document.getElementById('faqList');
+    if (!list) return;
+
+    // イベント委譲：言語切り替えで再描画されても動作する
+    list.addEventListener('click', (e) => {
+        const question = e.target.closest('.faq-question');
+        if (!question) return;
+
+        const item = question.parentElement;
+        const willOpen = !item.classList.contains('open');
+
+        // 他に開いている質問を閉じる（同時に開くのは1つだけ）
+        list.querySelectorAll('.faq-item.open').forEach(openItem => {
+            if (openItem !== item) {
+                openItem.classList.remove('open');
+                openItem.querySelector('.faq-answer').style.maxHeight = null;
+            }
+        });
+
+        item.classList.toggle('open', willOpen);
+        const answer = item.querySelector('.faq-answer');
+        answer.style.maxHeight = willOpen ? answer.scrollHeight + 'px' : null;
+    });
+}
 
 // 季節タブ切り替え
 function setupSeasonTabs() {
