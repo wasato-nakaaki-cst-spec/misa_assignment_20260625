@@ -50,38 +50,6 @@ style.textContent = `
         }
     }
 
-    .language-selector {
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        z-index: 2000;
-        background: white;
-        border-radius: 8px;
-        padding: 5px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        display: flex;
-        gap: 5px;
-    }
-
-    .lang-btn {
-        padding: 8px 12px;
-        border: none;
-        background: transparent;
-        cursor: pointer;
-        font-weight: 500;
-        color: #666;
-        border-radius: 5px;
-        transition: all 0.3s ease;
-    }
-
-    .lang-btn:hover {
-        background: #f0f0f0;
-    }
-
-    .lang-btn.active {
-        background: var(--primary-color);
-        color: white;
-    }
 `;
 document.head.appendChild(style);
 
@@ -103,9 +71,7 @@ async function loadLanguages() {
         console.log('日本語データ読み込み成功');
 
         updatePageContent();
-        initLanguageSelector();
         initNavLanguageSelector();
-        initMobileLanguageSelector();
         console.log('言語セレクター初期化完了');
 
         await loadStoredLanguage();
@@ -131,21 +97,6 @@ async function loadLanguageData(lang) {
     }
 }
 
-// 言語セレクターを初期化
-function initLanguageSelector() {
-    const buttons = document.querySelectorAll('.lang-btn');
-    if (!buttons.length) return;
-
-    buttons.forEach(btn => {
-        btn.addEventListener('click', async () => {
-            const lang = btn.dataset.lang;
-            await switchLanguage(lang);
-        });
-    });
-
-    updateLanguageButtons();
-}
-
 // 言語を切り替え
 async function switchLanguage(lang) {
     console.log('言語切り替え開始:', lang);
@@ -154,18 +105,63 @@ async function switchLanguage(lang) {
     await loadLanguageData(lang);
     console.log('言語データ読み込み完了:', lang);
     updatePageContent();
-    updateLanguageButtons();
     updateNavLanguageLabel();
-    updateMobileLanguageButtons();
-    updateMobileLanguageLabel();
+    updateNavLanguageOptions();
+    updateThemeLabel();
     closeNavLanguageMenu();
     console.log('言語切り替え完了:', lang);
 }
 
-// 言語ボタンの状態を更新
-function updateLanguageButtons() {
-    document.querySelectorAll('.lang-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.lang === currentLanguage);
+// ===== テーマ（ダークモード）切替 =====
+function getCurrentTheme() {
+    return document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+}
+
+function applyTheme(theme) {
+    if (theme === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+    } else {
+        document.documentElement.removeAttribute('data-theme');
+    }
+    // アイコン：現在の状態を示す（ライト＝太陽、ダーク＝月）
+    document.querySelectorAll('.theme-toggle i').forEach(icon => {
+        icon.className = theme === 'dark' ? 'fa-solid fa-moon' : 'fa-solid fa-sun';
+    });
+    updateThemeLabel();
+}
+
+// 各ボタンの aria-label を現在言語・現在テーマに合わせて更新（切り替え先を示す）
+function updateThemeLabel() {
+    const t = languageData && languageData.theme;
+    const theme = getCurrentTheme();
+    const text = theme === 'dark'
+        ? (t && t.light ? t.light : 'ライトモード')
+        : (t && t.dark ? t.dark : 'ダークモード');
+
+    document.querySelectorAll('.theme-toggle').forEach(btn => btn.setAttribute('aria-label', text));
+}
+
+function setupThemeToggle() {
+    const media = window.matchMedia('(prefers-color-scheme: dark)');
+
+    // 初期テーマ：保存値 > OS 設定（head のインラインスクリプトと同一ロジック）
+    const stored = localStorage.getItem('theme');
+    applyTheme(stored || (media.matches ? 'dark' : 'light'));
+
+    // OS 側の設定が変わったら、過去に手動選択していても常にそちらへ追従する
+    // （保存値も新しい OS 設定に更新する）
+    media.addEventListener('change', (e) => {
+        const next = e.matches ? 'dark' : 'light';
+        localStorage.setItem('theme', next);
+        applyTheme(next);
+    });
+
+    document.querySelectorAll('.theme-toggle').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const next = getCurrentTheme() === 'dark' ? 'light' : 'dark';
+            localStorage.setItem('theme', next);
+            applyTheme(next);
+        });
     });
 }
 
@@ -177,10 +173,12 @@ function initNavLanguageSelector() {
 
     if (!navLangBtn || !navLangMenu || !navLangOptions.length) return;
 
-    // ボタンクリックでメニュー開閉
+    // ボタンクリックでメニュー開閉（開いている間はボタンをピンク塗りに）
     navLangBtn.addEventListener('click', (e) => {
         e.stopPropagation();
-        navLangMenu.style.display = navLangMenu.style.display === 'none' ? 'flex' : 'none';
+        const willOpen = navLangMenu.style.display === 'none' || !navLangMenu.style.display;
+        navLangMenu.style.display = willOpen ? 'flex' : 'none';
+        navLangBtn.classList.toggle('open', willOpen);
     });
 
     // メニューアイテムクリックで言語切り替え
@@ -194,9 +192,11 @@ function initNavLanguageSelector() {
     // ドキュメント外クリックでメニュー非表示
     document.addEventListener('click', () => {
         navLangMenu.style.display = 'none';
+        navLangBtn.classList.remove('open');
     });
 
     updateNavLanguageLabel();
+    updateNavLanguageOptions();
 }
 
 // メニューバーの言語ラベルを更新
@@ -207,75 +207,22 @@ function updateNavLanguageLabel() {
     }
 }
 
+// メニューバーの言語リストで、現在の選択言語をハイライト
+function updateNavLanguageOptions() {
+    document.querySelectorAll('.nav-lang-option').forEach(option => {
+        option.classList.toggle('active', option.dataset.lang === currentLanguage);
+    });
+}
+
 // メニューバーの言語メニューを閉じる
 function closeNavLanguageMenu() {
     const navLangMenu = document.getElementById('navLangMenu');
     if (navLangMenu) {
         navLangMenu.style.display = 'none';
     }
-}
-
-// モバイル用言語セレクターを初期化
-function initMobileLanguageSelector() {
-    const mobileLangBtn = document.getElementById('navMobileLangBtn');
-    const languageModal = document.getElementById('languageModal');
-    const modalCloseBtn = languageModal?.querySelector('.modal-close');
-    const modalOptions = document.querySelectorAll('.language-modal-option');
-
-    if (!mobileLangBtn || !languageModal || !modalOptions.length) return;
-
-    // ボタンクリックでモーダルを開く
-    mobileLangBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        languageModal.classList.add('active');
-        document.body.style.overflow = 'hidden';
-    });
-
-    // モーダルクローズボタン
-    if (modalCloseBtn) {
-        modalCloseBtn.addEventListener('click', () => {
-            languageModal.classList.remove('active');
-            document.body.style.overflow = 'auto';
-        });
-    }
-
-    // モーダル外クリックでクローズ
-    languageModal.addEventListener('click', (e) => {
-        if (e.target === languageModal) {
-            languageModal.classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
-    });
-
-    // 言語オプションをクリック
-    modalOptions.forEach(option => {
-        option.addEventListener('click', async () => {
-            const lang = option.dataset.lang;
-            await switchLanguage(lang);
-            languageModal.classList.remove('active');
-            document.body.style.overflow = 'auto';
-        });
-    });
-
-    updateMobileLanguageButtons();
-}
-
-// モバイル用言語ボタンの状態を更新
-function updateMobileLanguageButtons() {
-    document.querySelectorAll('.nav-mobile-lang-option').forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.lang === currentLanguage);
-    });
-    // モーダル内の言語ボタンも更新
-    document.querySelectorAll('.language-modal-option').forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.lang === currentLanguage);
-    });
-}
-
-// モバイル用言語ラベルを更新
-function updateMobileLanguageLabel() {
-    const mobileLangLabel = document.getElementById('navMobileLangLabel');
-    if (mobileLangLabel && languageData && languageData.footer && languageData.footer.language) {
-        mobileLangLabel.textContent = languageData.footer.language;
+    const navLangBtn = document.getElementById('navLangBtn');
+    if (navLangBtn) {
+        navLangBtn.classList.remove('open');
     }
 }
 
@@ -286,10 +233,8 @@ async function loadStoredLanguage() {
         currentLanguage = stored;
         await loadLanguageData(stored);
         updatePageContent();
-        updateLanguageButtons();
         updateNavLanguageLabel();
-        updateMobileLanguageButtons();
-        updateMobileLanguageLabel();
+        updateNavLanguageOptions();
     }
 }
 
@@ -298,10 +243,9 @@ function updatePageContent() {
     const t = languageData;
     if (!t) return;
 
-    // 言語選択モーダルのタイトルを更新
-    const languageModalTitle = document.getElementById('languageModalTitle');
-    if (languageModalTitle && t.language && t.language.title) {
-        languageModalTitle.textContent = t.language.title;
+    // ブラウザタブのタイトル
+    if (t.meta && t.meta.pageTitle) {
+        document.title = t.meta.pageTitle;
     }
 
     // ナビゲーション
@@ -567,8 +511,6 @@ function updateFooter() {
             links[0].textContent = t.footer.facebook;
             links[1].textContent = t.footer.instagram;
             links[2].textContent = t.footer.x;
-        } else if (idx === 3) {
-            if (h4) h4.textContent = t.footer.language;
         }
     });
 }
@@ -647,6 +589,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     // 言語機能の初期化
     await loadLanguages();
 
+    // テーマ（ダークモード）初期化
+    setupThemeToggle();
+
     // Intersection Observer for lazy animation
     const observerOptions = {
         threshold: 0.1,
@@ -721,23 +666,27 @@ function setupSeasonTabs() {
 
     if (!tabs.length || !cards.length) return;
 
-    tabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-            const season = tab.getAttribute('data-season');
+    const switchSeason = (tab) => {
+        const season = tab.getAttribute('data-season');
 
-            // タブのアクティブ状態を切り替え
-            tabs.forEach(t => t.classList.remove('active'));
-            tab.classList.add('active');
+        // タブのアクティブ状態を切り替え
+        tabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
 
-            // カードの表示を切り替え
-            cards.forEach(card => {
-                if (card.getAttribute('data-season') === season) {
-                    card.classList.add('active');
-                } else {
-                    card.classList.remove('active');
-                }
-            });
+        // カードの表示を切り替え
+        cards.forEach(card => {
+            if (card.getAttribute('data-season') === season) {
+                card.classList.add('active');
+            } else {
+                card.classList.remove('active');
+            }
         });
+    };
+
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => switchSeason(tab));
+        // PC等ホバー可能な環境では、ホバーだけでも切り替えられるようにする
+        tab.addEventListener('mouseenter', () => switchSeason(tab));
     });
 }
 
@@ -1122,14 +1071,11 @@ function setupStickyNav() {
     });
 
     // スマホ：メニュー外をタップしたらメニューを閉じる
-    const languageModal = document.getElementById('languageModal');
     document.addEventListener('click', (e) => {
         if (!isMobile()) return;
         if (!navbar.classList.contains('nav-open')) return;
         // ナビバー内・トグルボタンのクリックは除外
         if (navbar.contains(e.target) || navToggle.contains(e.target)) return;
-        // 言語選択モーダル内のクリックは除外（メニューを開いたままにする）
-        if (languageModal && languageModal.contains(e.target)) return;
         navbar.classList.remove('nav-open');
         syncIcon();
     });

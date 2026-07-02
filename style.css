@@ -12,12 +12,31 @@
     --text-dark: #2d2d2d;
     --text-light: #666;
     --border-color: #e0e0e0;
-    
+
+    /* テーマで切り替わる面の色 */
+    --bg: #fafafa;                       /* ページ背景 */
+    --surface: #ffffff;                  /* カード・モーダル等の面 */
+    --nav-bg: rgba(255, 255, 255, 0.95); /* ナビ背景（半透明） */
+    --footer-bg: #2d2d2d;                /* フッター（両テーマで濃色） */
+
     --gradient-pink: linear-gradient(135deg, #FF6B9D 0%, #FFB6D9 100%);
     --gradient-orange: linear-gradient(135deg, #FFA062 0%, #FFD4A3 100%);
     --gradient-yellow: linear-gradient(135deg, #FFD93D 0%, #FFEB99 100%);
     --gradient-mint: linear-gradient(135deg, #A8E6CF 0%, #DCEDC8 100%);
     --gradient-sky: linear-gradient(135deg, #56CCF2 0%, #B2EBF2 100%);
+}
+
+/* ダークモード：面と文字色を上書き（ブランドのグラデーションはそのまま活用） */
+[data-theme="dark"] {
+    --light-color: #262933;
+    --text-dark: #e8e8ea;
+    --text-light: #a8acb5;
+    --border-color: #3a3d47;
+
+    --bg: #14151a;
+    --surface: #1f2129;
+    --nav-bg: rgba(20, 21, 26, 0.95);
+    --footer-bg: #0f1015;
 }
 
 html {
@@ -27,11 +46,12 @@ html {
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: var(--text-dark);
-    background-color: #fafafa;
+    background-color: var(--bg);
     line-height: 1.6;
     overflow-x: hidden;
     padding-top: 80px;
-    transition: padding-top 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition: padding-top 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+                background-color 0.3s ease, color 0.3s ease;
 }
 
 /* メニューバー非表示時は上余白を削除 */
@@ -88,7 +108,7 @@ body.nav-closed {
     position: fixed;
     top: 0;
     width: 100%;
-    background: rgba(255, 255, 255, 0.95);
+    background: var(--nav-bg);
     backdrop-filter: blur(10px);
     z-index: 1000;
     box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
@@ -179,46 +199,21 @@ body.nav-closed {
     }
 }
 
-/* モバイル用言語セレクター（PC では非表示） */
-.nav-language-mobile {
-    display: none;
-}
-
-/* モバイルではメニューバーの言語セレクターを非表示 */
+/* スマホ表示：言語・テーマの丸型ボタンはそのまま表示し、
+   ラベル文言は省略してアイコンのみのコンパクト表示にする。
+   開閉ボタンとの余白は、下方の .nav-container 定義（padding-right）で確保する。 */
 @media (max-width: 960px) {
-    .nav-language-selector {
+    .nav-lang-btn span {
         display: none;
     }
 
-    .nav-language-mobile {
-        display: block !important;
-        list-style: none;
-        width: 100%;
-        position: relative;
-    }
-
-    .nav-mobile-lang-btn {
-        display: flex;
-        width: 100%;
-        padding: 0.9rem 1.5rem;
-        border: none;
-        background: transparent;
-        color: var(--text-dark);
-        font-weight: 500;
-        text-align: left;
-        cursor: pointer;
-        font-family: inherit;
-        font-size: 1rem;
-        line-height: 1.6;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-        align-items: center;
-        gap: 6px;
-        transition: all 0.3s ease;
-    }
-
-    .nav-mobile-lang-btn i {
-        color: var(--primary-color);
-        font-size: 1.3rem;
+    /* テーマ切替ボタンと揃えて円形に */
+    .nav-lang-btn {
+        width: 38px;
+        height: 38px;
+        padding: 0;
+        justify-content: center;
+        border-radius: 50%;
     }
 }
 
@@ -249,6 +244,40 @@ body.nav-closed {
 /* メニューバー言語セレクター */
 .nav-language-selector {
     position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* テーマ切替ボタン（デスクトップ） */
+.nav-theme-btn {
+    width: 38px;
+    height: 38px;
+    padding: 0;
+    border: 1px solid var(--primary-color);
+    background: transparent;
+    color: var(--primary-color);
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+/* ホバー可能な環境（マウス等）でのみ :hover を適用。
+   タッチ端末は :hover が擬似的に残り続け「押しっぱなし」に見えるため対象外にする。 */
+@media (hover: hover) {
+    .nav-theme-btn:hover {
+        background: var(--primary-color);
+        color: #fff;
+    }
+}
+
+.nav-theme-btn:active {
+    background: var(--primary-color);
+    color: #fff;
 }
 
 .nav-lang-btn {
@@ -271,12 +300,25 @@ body.nav-closed {
     font-size: 1rem;
 }
 
-.nav-lang-btn:hover {
+@media (hover: hover) {
+    .nav-lang-btn:hover {
+        background: var(--primary-color);
+        color: white;
+    }
+
+    .nav-lang-btn:hover i {
+        color: white;
+    }
+}
+
+.nav-lang-btn:active,
+.nav-lang-btn.open {
     background: var(--primary-color);
     color: white;
 }
 
-.nav-lang-btn:hover i {
+.nav-lang-btn:active i,
+.nav-lang-btn.open i {
     color: white;
 }
 
@@ -284,7 +326,7 @@ body.nav-closed {
     position: absolute;
     top: 100%;
     right: 0;
-    background: white;
+    background: var(--surface);
     border: 1px solid var(--border-color);
     border-radius: 8px;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
@@ -318,6 +360,13 @@ body.nav-closed {
 .nav-lang-option:hover {
     background: var(--light-color);
     color: var(--primary-color);
+}
+
+.nav-lang-option.active {
+    background: var(--primary-color);
+    color: white;
+    /* 選択中は一覧内の位置に関わらず四隅を角丸にする（フッターの言語ボタンと同様の見せ方） */
+    border-radius: 7px;
 }
 
 /* ヒーローセクション */
@@ -460,7 +509,7 @@ body.nav-closed {
 
 .overview-card {
     padding: 2rem;
-    background: white;
+    background: var(--surface);
     border-radius: 20px;
     text-align: center;
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
@@ -565,7 +614,7 @@ body.nav-closed {
 }
 
 .spot-card {
-    background: white;
+    background: var(--surface);
     border-radius: 15px;
     overflow: hidden;
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
@@ -686,7 +735,7 @@ body.nav-closed {
 
 .gourmet-card {
     padding: 2rem;
-    background: white;
+    background: var(--surface);
     border-radius: 15px;
     text-align: center;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
@@ -769,7 +818,7 @@ body.nav-closed {
     padding: 0.8rem 1.8rem;
     border: 2px solid transparent;
     border-radius: 50px;
-    background: white;
+    background: var(--surface);
     color: var(--text-dark);
     font-size: 1.1rem;
     font-weight: 600;
@@ -840,7 +889,7 @@ body.nav-closed {
 
 .season-content {
     padding: 1.5rem;
-    background: white;
+    background: var(--surface);
 }
 
 .season-content p {
@@ -908,7 +957,7 @@ body.nav-closed {
 
 .access-card {
     padding: 2rem;
-    background: white;
+    background: var(--surface);
     border-radius: 15px;
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
     transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -972,7 +1021,7 @@ body.nav-closed {
 }
 
 .faq-item {
-    background: white;
+    background: var(--surface);
     border-radius: 12px;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
     overflow: hidden;
@@ -1143,7 +1192,7 @@ body.nav-closed {
 
 /* フッター */
 .footer {
-    background: #2d2d2d;
+    background: var(--footer-bg);
     color: white;
     padding: 3rem 2rem 1rem;
 }
@@ -1212,41 +1261,6 @@ body.nav-closed {
 .photo-credits a {
     color: #888;
     text-decoration: underline;
-}
-
-/* 言語選択ボタン */
-.language-options {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    margin-top: 0.5rem;
-}
-
-.lang-btn {
-    width: 100%;
-    max-width: 130px;
-    text-align: center;
-    padding: 6px 12px;
-    border: 1px solid var(--primary-color);
-    background: transparent;
-    color: var(--primary-color);
-    border-radius: 20px;
-    cursor: pointer;
-    font-weight: 500;
-    font-size: 0.9rem;
-    transition: all 0.3s ease;
-}
-
-.lang-btn:hover {
-    background: var(--primary-color);
-    color: white;
-}
-
-.lang-btn.active {
-    background: var(--primary-color);
-    color: white;
-    box-shadow: 0 2px 8px rgba(255, 107, 157, 0.4);
 }
 
 .photo-credits a:hover {
@@ -1341,7 +1355,6 @@ body.nav-closed {
 
 /* モーダル */
 .contact-modal,
-.language-modal,
 .privacy-modal {
     display: none;
     position: fixed;
@@ -1357,7 +1370,6 @@ body.nav-closed {
 }
 
 .contact-modal.active,
-.language-modal.active,
 .privacy-modal.active {
     display: flex;
 }
@@ -1368,7 +1380,7 @@ body.nav-closed {
 }
 
 .modal-content {
-    background: white;
+    background: var(--surface);
     padding: 2rem;
     border-radius: 15px;
     max-width: 500px;
@@ -1441,39 +1453,6 @@ body.nav-closed {
     color: var(--text-light);
 }
 
-/* 言語選択モーダル */
-.language-options-modal {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.language-modal-option {
-    padding: 12px 16px;
-    border: 1px solid var(--border-color);
-    background: transparent;
-    color: var(--text-dark);
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 500;
-    font-size: 1rem;
-    transition: all 0.3s ease;
-    text-align: center;
-}
-
-.language-modal-option:hover {
-    background: var(--light-color);
-    color: var(--primary-color);
-    border-color: var(--primary-color);
-}
-
-.language-modal-option.active {
-    background: var(--primary-color);
-    color: white;
-    border-color: var(--primary-color);
-    box-shadow: 0 2px 8px rgba(255, 107, 157, 0.4);
-}
-
 /* フォーム */
 .contact-form {
     display: flex;
@@ -1505,6 +1484,8 @@ body.nav-closed {
     border-radius: 8px;
     font-size: 1rem;
     font-family: inherit;
+    background: var(--surface);
+    color: var(--text-dark);
     transition: all 0.3s ease;
 }
 
@@ -1523,8 +1504,8 @@ body.nav-closed {
     left: 0;
     margin-top: 8px;
     max-width: 90%;
-    background: #fff;
-    color: #333;
+    background: var(--surface);
+    color: var(--text-dark);
     font-size: 0.85rem;
     font-weight: 500;
     line-height: 1.4;
@@ -1543,7 +1524,7 @@ body.nav-closed {
     bottom: 100%;
     left: 20px;
     border: 7px solid transparent;
-    border-bottom-color: #fff;
+    border-bottom-color: var(--surface);
 }
 
 /* 吹き出しを絶対配置するための基準 */
@@ -1582,10 +1563,10 @@ body.nav-closed {
     /* スマホでは不透明な白＋細い境界線（灰色の影スペースを解消） */
     /* backdrop-filter はスマホでは不要かつ描画不具合の原因になるため無効化 */
     .navbar {
-        background: #fff;
+        background: var(--surface);
         box-shadow: none;
         backdrop-filter: none;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+        border-bottom: 1px solid var(--border-color);
     }
 
     /* メニューを開いているときはロゴ下の境界線を消す（白い線を解消） */
@@ -1597,7 +1578,7 @@ body.nav-closed {
        閉じたときの下端の隙間（#fafafa）を解消 */
     .nav-container {
         width: 100%;
-        padding: 0.75rem 1rem;
+        padding: 0.75rem 4.5rem 0.75rem 1rem;
     }
 
     .logo {
@@ -1621,7 +1602,7 @@ body.nav-closed {
         right: 0;
         flex-direction: column;
         gap: 0;
-        background: #fff;
+        background: var(--surface);
         max-height: 0;
         overflow: hidden;
         transition: max-height 0.35s ease;

@@ -5,6 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>宮城県観光PR - みちのく宮城へようこそ</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='75' font-size='75'>🌸</text></svg>">
+    <!-- テーマの初期適用（描画前・チラつき防止） -->
+    <script>
+        (function () {
+            try {
+                var stored = localStorage.getItem('theme');
+                var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                if (stored === 'dark' || (!stored && prefersDark)) {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                }
+            } catch (e) {}
+        })();
+    </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
@@ -28,13 +40,9 @@
                 <li><a href="#seasons" class="nav-link">季節</a></li>
                 <li><a href="#access" class="nav-link">アクセス</a></li>
                 <li><a href="#faq" class="nav-link">FAQ</a></li>
-                <li class="nav-language-mobile">
-                    <button class="nav-mobile-lang-btn" id="navMobileLangBtn">
-                        <span id="navMobileLangLabel">言語</span>
-                    </button>
-                </li>
             </ul>
             <div class="nav-language-selector">
+                <button class="nav-theme-btn theme-toggle" id="navThemeBtn" aria-label="テーマ切替"><i class="fa-solid fa-moon"></i></button>
                 <button class="nav-lang-btn" id="navLangBtn"><i class="fa-solid fa-globe"></i> <span id="navLangLabel">言語</span></button>
                 <div class="nav-lang-menu" id="navLangMenu" style="display:none;">
                     <button class="nav-lang-option" data-lang="ja">日本語</button>
@@ -373,16 +381,6 @@
                     <li><a href="#">X</a></li>
                 </ul>
             </div>
-            <div class="footer-section">
-                <h4>言語</h4>
-                <div class="language-options">
-                    <button class="lang-btn" data-lang="ja">日本語</button>
-                    <button class="lang-btn" data-lang="en">English</button>
-                    <button class="lang-btn" data-lang="zh-CN">简体中文</button>
-                    <button class="lang-btn" data-lang="zh-TW">繁體中文</button>
-                    <button class="lang-btn" data-lang="ko">한국어</button>
-                </div>
-            </div>
         </div>
         <div class="footer-bottom">
             <div class="photo-credits">
@@ -405,21 +403,6 @@
             </div>
         </div>
     </footer>
-
-    <!-- 言語選択モーダル -->
-    <div class="language-modal" id="languageModal">
-        <div class="modal-content">
-            <span class="modal-close">&times;</span>
-            <h2 id="languageModalTitle">言語を選択</h2>
-            <div class="language-options-modal">
-                <button class="language-modal-option" data-lang="ja">日本語</button>
-                <button class="language-modal-option" data-lang="en">English</button>
-                <button class="language-modal-option" data-lang="zh-CN">简体中文</button>
-                <button class="language-modal-option" data-lang="zh-TW">繁體中文</button>
-                <button class="language-modal-option" data-lang="ko">한국어</button>
-            </div>
-        </div>
-    </div>
 
     <!-- お問い合わせモーダル -->
     <div class="contact-modal" id="contactModal">

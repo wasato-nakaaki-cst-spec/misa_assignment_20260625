@@ -1,4 +1,7 @@
 {
+  "meta": {
+    "pageTitle": "Miyagi Tourism - Welcome to Miyagi"
+  },
   "nav": {
     "home": "Home",
     "spots": "Must-See Destinations",
@@ -191,6 +194,10 @@
   "language": {
     "title": "Select Language"
   },
+  "theme": {
+    "dark": "Dark Mode",
+    "light": "Light Mode"
+  },
   "contact": {
     "title": "Contact",
     "name": "Name *",
@@ -209,7 +216,7 @@
       },
       {
         "heading": "Cookies and Analytics",
-        "body": "This site does not use cookies for analytics or advertising. Only your language preference is saved in your browser's local storage for convenience on your next visit, and this information is never sent externally."
+        "body": "This site does not use cookies for analytics or advertising. Only your language and theme (dark mode) preferences are saved in your browser's local storage for convenience on your next visit, and this information is never sent externally."
       },
       {
         "heading": "External Services",
