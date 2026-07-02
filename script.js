@@ -622,6 +622,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     setupNavigation();
     setupModal();
     setupPrivacyModal();
+    setupSpotModal();
     setupNewsletterForm();
     setupContactForm();
     setupParallax();
@@ -842,6 +843,8 @@ function setupModal() {
         document.body.style.overflow = 'hidden';
         const modalContent = modal.querySelector('.modal-content');
         modalContent.style.animation = 'slideIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)';
+        const scroll = modal.querySelector('.modal-scroll');
+        if (scroll) scroll.scrollTop = 0;
     }
 
     function closeModal() {
@@ -861,6 +864,8 @@ function setupPrivacyModal() {
     const open = () => {
         modal.classList.add('active');
         document.body.style.overflow = 'hidden';
+        const scroll = modal.querySelector('.modal-scroll');
+        if (scroll) scroll.scrollTop = 0;
     };
     const close = () => {
         modal.classList.remove('active');
@@ -877,6 +882,88 @@ function setupPrivacyModal() {
     modal.addEventListener('click', (e) => {
         if (e.target === modal) close();
     });
+}
+
+// 観光地の並び順（updateSpotCards と共通）と地図リンク（言語非依存）
+const SPOT_KEYS = ['matsushima', 'sendai', 'shiogama', 'naruko', 'kesennuma', 'zao'];
+const SPOT_MAP_QUERIES = {
+    matsushima: 'Matsushima,Miyagi,Japan',
+    sendai: 'Sendai Castle Ruins,Miyagi,Japan',
+    shiogama: 'Shiogama Shrine,Miyagi,Japan',
+    naruko: 'Naruko Onsen,Miyagi,Japan',
+    kesennuma: 'Kesennuma,Miyagi,Japan',
+    zao: 'Okama Crater Lake,Zao,Miyagi,Japan'
+};
+
+// 観光地の詳細モーダル
+function setupSpotModal() {
+    const modal = document.getElementById('spotModal');
+    if (!modal) return;
+
+    const closeBtn = modal.querySelector('.modal-close');
+    const cards = document.querySelectorAll('.spot-card');
+
+    const close = () => {
+        modal.classList.remove('active');
+        document.body.style.overflow = 'auto';
+    };
+
+    cards.forEach((card, idx) => {
+        card.addEventListener('click', (e) => {
+            // カード内のリンク（詳しく見る等）の既定動作は抑止
+            const link = e.target.closest('a');
+            if (link) e.preventDefault();
+            openSpotModal(SPOT_KEYS[idx], card);
+        });
+    });
+
+    if (closeBtn) closeBtn.addEventListener('click', close);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) close();
+    });
+}
+
+function openSpotModal(spotKey, card) {
+    const modal = document.getElementById('spotModal');
+    const t = languageData;
+    const spot = t && t.spots && t.spots[spotKey];
+    if (!modal || !spot) return;
+
+    const labels = (t && t.spotDetail) || {};
+
+    // 画像（カードから流用）
+    const cardImg = card.querySelector('.spot-img');
+    const modalImg = document.getElementById('spotModalImg');
+    if (modalImg && cardImg) {
+        modalImg.src = cardImg.src;
+        modalImg.alt = spot.name || '';
+    }
+
+    document.getElementById('spotModalTitle').textContent = spot.name || '';
+    document.getElementById('spotModalDesc').textContent = spot.desc || '';
+
+    document.getElementById('spotModalDurationLabel').textContent = labels.duration || '所要時間';
+    document.getElementById('spotModalDuration').textContent = spot.duration || '';
+    document.getElementById('spotModalSeasonLabel').textContent = labels.season || 'おすすめの季節';
+    document.getElementById('spotModalSeason').textContent = spot.season || '';
+
+    document.getElementById('spotModalHighlightsLabel').textContent = labels.highlights || '見どころ';
+    const ul = document.getElementById('spotModalHighlights');
+    ul.innerHTML = Array.isArray(spot.highlights)
+        ? spot.highlights.map(h => `<li>${h}</li>`).join('')
+        : '';
+
+    const mapLink = document.getElementById('spotModalMap');
+    mapLink.textContent = labels.map || '地図で見る';
+    mapLink.href = 'https://www.google.com/maps/search/?api=1&query=' +
+        encodeURIComponent(SPOT_MAP_QUERIES[spotKey] || spot.name || '');
+
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+
+    // 表示後にスクロール位置を先頭へ（非表示中は scrollTop を設定できないため）
+    const body = modal.querySelector('.spot-modal-body');
+    if (body) body.scrollTop = 0;
 }
 
 // ニュースレターフォーム
@@ -1160,7 +1247,7 @@ function setupTextAnimation() {
 // キーボードナビゲーション
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
-        const modals = document.querySelectorAll('.contact-modal.active, .privacy-modal.active');
+        const modals = document.querySelectorAll('.contact-modal.active, .privacy-modal.active, .spot-modal.active');
         modals.forEach(modal => modal.classList.remove('active'));
         if (modals.length) document.body.style.overflow = 'auto';
     }

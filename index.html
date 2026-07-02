@@ -407,33 +407,64 @@
     <!-- お問い合わせモーダル -->
     <div class="contact-modal" id="contactModal">
         <div class="modal-content">
-            <span class="modal-close">&times;</span>
-            <h2 id="contact">お問い合わせ</h2>
-            <form id="contactForm" class="contact-form" novalidate>
-                <div class="form-group">
-                    <label for="name">お名前 *</label>
-                    <input type="text" id="name" required>
-                </div>
-                <div class="form-group">
-                    <label for="email">メールアドレス *</label>
-                    <input type="email" id="email" required>
-                </div>
-                <div class="form-group">
-                    <label for="message">メッセージ *</label>
-                    <textarea id="message" rows="5" required></textarea>
-                </div>
-                <button type="submit" class="submit-btn">送信する</button>
-            </form>
+            <span class="modal-close"><i class="fa-solid fa-xmark"></i></span>
+            <div class="modal-scroll">
+                <h2 id="contact">お問い合わせ</h2>
+                <form id="contactForm" class="contact-form" novalidate>
+                    <div class="form-group">
+                        <label for="name">お名前 *</label>
+                        <input type="text" id="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">メールアドレス *</label>
+                        <input type="email" id="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">メッセージ *</label>
+                        <textarea id="message" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">送信する</button>
+                </form>
+            </div>
         </div>
     </div>
 
     <!-- プライバシーポリシーモーダル -->
     <div class="privacy-modal" id="privacyModal">
         <div class="modal-content">
-            <span class="modal-close">&times;</span>
-            <h2 id="privacyTitle">プライバシーポリシー</h2>
-            <div class="privacy-body" id="privacyBody">
-                <!-- JavaScriptで言語データから生成 -->
+            <span class="modal-close"><i class="fa-solid fa-xmark"></i></span>
+            <div class="modal-scroll">
+                <h2 id="privacyTitle">プライバシーポリシー</h2>
+                <div class="privacy-body" id="privacyBody">
+                    <!-- JavaScriptで言語データから生成 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 観光地詳細モーダル -->
+    <div class="spot-modal" id="spotModal">
+        <div class="modal-content spot-modal-content">
+            <span class="modal-close"><i class="fa-solid fa-xmark"></i></span>
+            <div class="spot-modal-body">
+                <div class="spot-modal-image"><img id="spotModalImg" src="" alt=""></div>
+                <div class="spot-modal-text">
+                    <h2 id="spotModalTitle"></h2>
+                    <p id="spotModalDesc" class="spot-modal-desc"></p>
+                    <div class="spot-modal-meta">
+                        <div class="spot-modal-row">
+                            <span class="spot-modal-label" id="spotModalDurationLabel"></span>
+                            <span id="spotModalDuration"></span>
+                        </div>
+                        <div class="spot-modal-row">
+                            <span class="spot-modal-label" id="spotModalSeasonLabel"></span>
+                            <span id="spotModalSeason"></span>
+                        </div>
+                    </div>
+                    <h3 class="spot-modal-subtitle" id="spotModalHighlightsLabel"></h3>
+                    <ul class="spot-modal-highlights" id="spotModalHighlights"></ul>
+                    <a class="spot-modal-map" id="spotModalMap" target="_blank" rel="noopener"></a>
+                </div>
             </div>
         </div>
     </div>
