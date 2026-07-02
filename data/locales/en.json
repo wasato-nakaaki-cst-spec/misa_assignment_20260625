@@ -144,7 +144,8 @@
     "title": "Stay Updated on Miyagi",
     "desc": "Subscribe to receive travel tips, local events, and the latest news from Miyagi.",
     "placeholder": "Enter your email address",
-    "button": "Subscribe"
+    "button": "Subscribe",
+    "notification": "Thank you for your interest! Note: this is a demo site, so no actual subscription is registered."
   },
   "faq": {
     "title": "Frequently Asked Questions",
@@ -195,7 +196,38 @@
     "name": "Name *",
     "email": "Email Address *",
     "message": "Message *",
-    "submit": "Send"
+    "submit": "Send",
+    "notification": "Thank you for your message! Note: this is a demo site, so it is not actually sent."
+  },
+  "privacy": {
+    "title": "Privacy Policy",
+    "intro": "This website is an informational site introducing tourism in Miyagi Prefecture. We respect the privacy of our visitors and operate under the following policy.",
+    "sections": [
+      {
+        "heading": "Collection of Personal Information",
+        "body": "The contact and newsletter sign-up forms on this site are currently for demonstration purposes only. Any name, email address, or message you enter is not sent to or stored on any server; all processing is completed within your browser."
+      },
+      {
+        "heading": "Cookies and Analytics",
+        "body": "This site does not use cookies for analytics or advertising. Only your language preference is saved in your browser's local storage for convenience on your next visit, and this information is never sent externally."
+      },
+      {
+        "heading": "External Services",
+        "body": "This site uses an external CDN (Font Awesome) to display icons. When these resources load, technical information such as your IP address may be sent to the provider."
+      },
+      {
+        "heading": "Disclaimer",
+        "body": "While we strive to keep the information accurate, we do not guarantee its content. Please always check the official sources of each facility or transportation provider before your trip."
+      },
+      {
+        "heading": "Changes to This Policy",
+        "body": "This privacy policy may be changed without notice as needed."
+      }
+    ]
+  },
+  "validation": {
+    "required": "Please fill out this field.",
+    "email": "Please enter a valid email address."
   },
   "common": {
     "details": "Learn More →"

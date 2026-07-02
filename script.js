@@ -353,6 +353,7 @@ function updatePageContent() {
     updateSocialShare();
     updateFooter();
     updateContactForm();
+    updatePrivacyPolicy();
     updatePhotoCredits();
 }
 
@@ -607,6 +608,24 @@ function updatePhotoCredits() {
     });
 }
 
+function updatePrivacyPolicy() {
+    const t = languageData;
+    if (!t.privacy) return;
+
+    const title = document.getElementById('privacyTitle');
+    if (title) title.textContent = t.privacy.title;
+
+    const body = document.getElementById('privacyBody');
+    if (!body) return;
+
+    let html = '';
+    if (t.privacy.intro) html += `<p class="privacy-intro">${t.privacy.intro}</p>`;
+    if (Array.isArray(t.privacy.sections)) {
+        html += t.privacy.sections.map(s => `<h3>${s.heading}</h3><p>${s.body}</p>`).join('');
+    }
+    body.innerHTML = html;
+}
+
 function updateContactForm() {
     const t = languageData;
     const modal = document.getElementById('contactModal');
@@ -657,6 +676,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     setupCounterAnimation();
     setupNavigation();
     setupModal();
+    setupPrivacyModal();
     setupNewsletterForm();
     setupContactForm();
     setupParallax();
@@ -725,8 +745,9 @@ function setupSeasonTabs() {
 function setupSmoothScroll() {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
-            // お問い合わせモーダルのトリガーはスクロール対象外（モーダル側で処理）
-            if (this.getAttribute('href') === '#contact') return;
+            // モーダルのトリガーはスクロール対象外（モーダル側で処理）
+            const href = this.getAttribute('href');
+            if (href === '#contact' || href === '#privacy') return;
             e.preventDefault();
             const target = document.querySelector(this.getAttribute('href'));
             if (target) {
@@ -857,6 +878,8 @@ function setupModal() {
     });
 
     function openModal() {
+        const form = document.getElementById('contactForm');
+        if (form) clearFieldErrors(form);
         modal.classList.add('active');
         document.body.style.overflow = 'hidden';
         const modalContent = modal.querySelector('.modal-content');
@@ -869,14 +892,47 @@ function setupModal() {
     }
 }
 
+// プライバシーポリシーモーダル
+function setupPrivacyModal() {
+    const modal = document.getElementById('privacyModal');
+    if (!modal) return;
+
+    const closeBtn = modal.querySelector('.modal-close');
+    const link = document.querySelector('a[href="#privacy"]');
+
+    const open = () => {
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    };
+    const close = () => {
+        modal.classList.remove('active');
+        document.body.style.overflow = 'auto';
+    };
+
+    if (link) {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            open();
+        });
+    }
+    if (closeBtn) closeBtn.addEventListener('click', close);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) close();
+    });
+}
+
 // ニュースレターフォーム
 function setupNewsletterForm() {
     const form = document.getElementById('newsletterForm');
     if (!form) return;
 
+    setupBubbleDismissal(form);
+
     form.addEventListener('submit', (e) => {
         e.preventDefault();
-        showNotification('ありがとうございます！メールを送信しました。', 'success');
+        if (!validateFormLocalized(form)) return;
+        const msg = languageData?.newsletter?.notification || 'ご登録ありがとうございます。※本サイトはデモのため、実際の配信登録は行われません。';
+        showNotification(msg, 'success');
         form.reset();
         
         const btn = form.querySelector('.subscribe-btn');
@@ -889,9 +945,13 @@ function setupContactForm() {
     const form = document.getElementById('contactForm');
     if (!form) return;
 
+    setupBubbleDismissal(form);
+
     form.addEventListener('submit', (e) => {
         e.preventDefault();
-        showNotification('お問い合わせをありがとうございました！', 'success');
+        if (!validateFormLocalized(form)) return;
+        const msg = languageData?.contact?.notification || 'お問い合わせありがとうございます。※本サイトはデモのため、実際には送信されません。';
+        showNotification(msg, 'success');
         form.reset();
         
         setTimeout(() => {
@@ -899,6 +959,86 @@ function setupContactForm() {
             document.body.style.overflow = 'auto';
         }, 1500);
     });
+}
+
+// フォーム内のエラー吹き出しをすべて消す（フォーム単位）
+function clearFieldErrors(form) {
+    form.querySelectorAll('.field-error-bubble').forEach(el => el.remove());
+    form._bubbleField = null;
+}
+
+// 吹き出しの消去トリガーをフォーム単位で設定
+// （このフォーム内で）文字入力した／別の入力欄を選択した／フォーム外へ選択が外れたら消す。
+// ※再検証はしない。送信時にフォーカスする当該欄・ボタンでは消さない。
+function setupBubbleDismissal(form) {
+    form.addEventListener('input', () => clearFieldErrors(form));
+
+    form.addEventListener('focusin', (e) => {
+        if (form._bubbleField &&
+            e.target !== form._bubbleField &&
+            e.target.matches('input, textarea, select')) {
+            clearFieldErrors(form);
+        }
+    });
+
+    // フォーカスがフォーム外へ移ったら消す（relatedTarget がフォーム外／なし）
+    form.addEventListener('focusout', (e) => {
+        if (form._bubbleField && !form.contains(e.relatedTarget)) {
+            clearFieldErrors(form);
+        }
+    });
+}
+
+// 不正欄に、標準風の吹き出しでメッセージを表示（フォーム単位で1個）
+function showErrorBubble(field, msg) {
+    const form = field.form;
+    const container = field.closest('.form-group') || field.parentElement;
+    const existing = container.querySelector('.field-error-bubble');
+
+    // 同じフォーム内の、対象欄以外の吹き出しは消す（フォームごとに常に1個）
+    form.querySelectorAll('.field-error-bubble').forEach(el => {
+        if (el !== existing) el.remove();
+    });
+
+    form._bubbleField = field;
+
+    // 同じ欄に既に出ているなら、消して出し直さず文言だけ更新（点滅防止）
+    if (existing) {
+        existing.textContent = msg;
+        return;
+    }
+
+    const bubble = document.createElement('div');
+    bubble.className = 'field-error-bubble';
+    bubble.textContent = msg;
+    container.appendChild(bubble);
+    // 消去はフォーム単位の input / focusin リスナーが担当
+}
+
+// フォームを選択言語のメッセージで検証。最初の不正欄に吹き出しを表示。
+// ネイティブの検証（reportValidity）は使わないため、入力中に反応しない。
+// 検証・表示は送信時のみ行う（標準と同様、最初の不正欄のみ表示してフォーカス）。
+function validateFormLocalized(form) {
+    const v = languageData?.validation || {};
+
+    const fields = form.querySelectorAll('input, textarea');
+    for (const field of fields) {
+        let msg = '';
+        if (field.validity.valueMissing) {
+            msg = v.required || '';
+        } else if (field.validity.typeMismatch) {
+            msg = v.email || '';
+        }
+        if (msg) {
+            showErrorBubble(field, msg);
+            field.focus();
+            return false;
+        }
+    }
+
+    // すべて有効：残っている吹き出しを消す
+    clearFieldErrors(form);
+    return true;
 }
 
 // 通知表示
@@ -1065,11 +1205,9 @@ function setupTextAnimation() {
 // キーボードナビゲーション
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
-        const modal = document.getElementById('contactModal');
-        if (modal && modal.classList.contains('active')) {
-            modal.classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
+        const modals = document.querySelectorAll('.contact-modal.active, .privacy-modal.active');
+        modals.forEach(modal => modal.classList.remove('active'));
+        if (modals.length) document.body.style.overflow = 'auto';
     }
 });
 

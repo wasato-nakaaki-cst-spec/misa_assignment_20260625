@@ -320,7 +320,7 @@
         <div class="newsletter-content">
             <h2>宮城県の最新情報をお届け</h2>
             <p>観光情報、イベント、グルメ情報など最新ニュースをメールでお受け取りください</p>
-            <form class="newsletter-form" id="newsletterForm">
+            <form class="newsletter-form" id="newsletterForm" novalidate>
                 <input type="email" placeholder="メールアドレスを入力" required>
                 <button type="submit" class="subscribe-btn">登録する</button>
             </form>
@@ -362,7 +362,7 @@
                 <h4>サポート</h4>
                 <ul>
                     <li><a href="#contact">お問い合わせ</a></li>
-                    <li><a href="#">プライバシー</a></li>
+                    <li><a href="#privacy">プライバシー</a></li>
                 </ul>
             </div>
             <div class="footer-section">
@@ -426,7 +426,7 @@
         <div class="modal-content">
             <span class="modal-close">&times;</span>
             <h2 id="contact">お問い合わせ</h2>
-            <form id="contactForm" class="contact-form">
+            <form id="contactForm" class="contact-form" novalidate>
                 <div class="form-group">
                     <label for="name">お名前 *</label>
                     <input type="text" id="name" required>
@@ -441,6 +441,17 @@
                 </div>
                 <button type="submit" class="submit-btn">送信する</button>
             </form>
+        </div>
+    </div>
+
+    <!-- プライバシーポリシーモーダル -->
+    <div class="privacy-modal" id="privacyModal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <h2 id="privacyTitle">プライバシーポリシー</h2>
+            <div class="privacy-body" id="privacyBody">
+                <!-- JavaScriptで言語データから生成 -->
+            </div>
         </div>
     </div>
 

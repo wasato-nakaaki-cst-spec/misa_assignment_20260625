@@ -1341,7 +1341,8 @@ body.nav-closed {
 
 /* モーダル */
 .contact-modal,
-.language-modal {
+.language-modal,
+.privacy-modal {
     display: none;
     position: fixed;
     top: 0;
@@ -1356,7 +1357,8 @@ body.nav-closed {
 }
 
 .contact-modal.active,
-.language-modal.active {
+.language-modal.active,
+.privacy-modal.active {
     display: flex;
 }
 
@@ -1414,6 +1416,29 @@ body.nav-closed {
 .modal-content h2 {
     margin: 0 0 1.5rem 0;
     color: var(--primary-color);
+}
+
+/* プライバシーポリシー本文 */
+.privacy-body {
+    color: var(--text-dark);
+    font-size: 0.95rem;
+    line-height: 1.8;
+}
+
+.privacy-body .privacy-intro {
+    margin: 0 0 1.25rem 0;
+    color: var(--text-light);
+}
+
+.privacy-body h3 {
+    margin: 1.5rem 0 0.4rem 0;
+    font-size: 1.05rem;
+    color: var(--text-dark);
+}
+
+.privacy-body p {
+    margin: 0;
+    color: var(--text-light);
 }
 
 /* 言語選択モーダル */
@@ -1488,6 +1513,46 @@ body.nav-closed {
     outline: none;
     border-color: var(--primary-color);
     box-shadow: 0 0 0 3px rgba(255, 107, 157, 0.1);
+}
+
+/* フォームのバリデーション吹き出し（送信時のみ表示） */
+.field-error-bubble {
+    position: absolute;
+    z-index: 10;
+    top: 100%;
+    left: 0;
+    margin-top: 8px;
+    max-width: 90%;
+    background: #fff;
+    color: #333;
+    font-size: 0.85rem;
+    font-weight: 500;
+    line-height: 1.4;
+    text-align: left;
+    padding: 0.6rem 0.85rem;
+    border-radius: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 0.15s ease;
+}
+
+/* 上向きの三角（吹き出しの先端） */
+.field-error-bubble::before {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    left: 20px;
+    border: 7px solid transparent;
+    border-bottom-color: #fff;
+}
+
+/* 吹き出しを絶対配置するための基準 */
+.form-group {
+    position: relative;
+}
+
+.newsletter-form {
+    position: relative;
 }
 
 .submit-btn {
