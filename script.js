@@ -144,22 +144,22 @@ function updateThemeLabel() {
 function setupThemeToggle() {
     const media = window.matchMedia('(prefers-color-scheme: dark)');
 
-    // 初期テーマ：保存値 > OS 設定（head のインラインスクリプトと同一ロジック）
-    const stored = localStorage.getItem('theme');
+    // 初期テーマ：保存値（このタブ内のみ） > OS 設定（head のインラインスクリプトと同一ロジック）
+    // sessionStorage を使うため、タブ/ブラウザを閉じて開き直すと必ずその時点のOS設定に従う
+    const stored = sessionStorage.getItem('theme');
     applyTheme(stored || (media.matches ? 'dark' : 'light'));
 
-    // OS 側の設定が変わったら、過去に手動選択していても常にそちらへ追従する
-    // （保存値も新しい OS 設定に更新する）
+    // OS 側の設定が変わったら、このタブ内で手動選択していても常にそちらへ追従する
     media.addEventListener('change', (e) => {
         const next = e.matches ? 'dark' : 'light';
-        localStorage.setItem('theme', next);
+        sessionStorage.setItem('theme', next);
         applyTheme(next);
     });
 
     document.querySelectorAll('.theme-toggle').forEach(btn => {
         btn.addEventListener('click', () => {
             const next = getCurrentTheme() === 'dark' ? 'light' : 'dark';
-            localStorage.setItem('theme', next);
+            sessionStorage.setItem('theme', next);
             applyTheme(next);
         });
     });

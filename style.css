@@ -951,8 +951,15 @@ body.nav-closed {
     max-width: 1200px;
     margin: 0 auto;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
+}
+
+/* 3列に収まらない幅では2列を経由せず一気に縦1列にする */
+@media (max-width: 877px) {
+    .access-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 .access-card {
@@ -1211,6 +1218,14 @@ body.nav-closed {
 
 .footer-section {
     text-align: center;
+}
+
+/* 3列に収まらない幅では2列を経由せず一気に縦1列にする（overview-gridと同じ考え方） */
+@media (max-width: 877px) {
+    .footer-content {
+        grid-template-columns: 1fr;
+        min-height: auto;
+    }
 }
 
 .footer-section h4 {
